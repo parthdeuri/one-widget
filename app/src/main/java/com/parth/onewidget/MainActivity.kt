@@ -9,10 +9,12 @@ import android.widget.TextView
 import com.parth.onewidget.config.CalendarConfigActivity
 import com.parth.onewidget.config.ClockAnalogConfigActivity
 import com.parth.onewidget.config.ClockDigitalConfigActivity
+import com.parth.onewidget.config.CombinedConfigActivity
 import com.parth.onewidget.config.ConfigActivity
 import com.parth.onewidget.providers.CalendarProvider
 import com.parth.onewidget.providers.ClockAnalogProvider
 import com.parth.onewidget.providers.ClockDigitalProvider
+import com.parth.onewidget.providers.CombinedProvider
 
 /** Lists the widgets currently on the home screen, each with a button to reopen its settings. */
 class MainActivity : ConfigActivity() {
@@ -23,6 +25,7 @@ class MainActivity : ConfigActivity() {
         Kind("Digital clock", ClockDigitalProvider::class.java, ClockDigitalConfigActivity::class.java),
         Kind("Analog clock", ClockAnalogProvider::class.java, ClockAnalogConfigActivity::class.java),
         Kind("Calendar", CalendarProvider::class.java, CalendarConfigActivity::class.java),
+        Kind("Clock + calendar", CombinedProvider::class.java, CombinedConfigActivity::class.java),
     )
 
     override fun onResume() {

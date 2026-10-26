@@ -2,12 +2,14 @@ package com.parth.onewidget.config
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
 import android.graphics.Color
 import android.widget.Button
+import android.widget.EditText
 import android.widget.HorizontalScrollView
 import android.widget.LinearLayout
 import android.widget.ScrollView
@@ -24,7 +26,8 @@ open class ConfigActivity : Activity() {
     protected var widgetId = 0
     protected lateinit var content: LinearLayout
 
-    private var appSubtitle: TextView? = null
+    private val appSubtitles = mutableMapOf<String, TextView>()
+    private var pendingAppKey = WidgetPrefs.KEY_TAP_PACKAGE
     private var imageSubtitle: TextView? = null
 
     private companion object {
@@ -195,12 +198,63 @@ open class ConfigActivity : Activity() {
         })
     }
 
-    protected fun addAppRow(label: String) {
-        val subtitle = TextView(this).apply { textSize = 13f }
-        appSubtitle = subtitle
-        showTapApp(subtitle)
+    protected fun addTextRow(label: String, key: String, default: String) {
+        val subtitle = TextView(this).apply {
+            textSize = 13f
+            text = WidgetPrefs.getString(this@ConfigActivity, widgetId, key) ?: default
+        }
         val row = row(label, subtitle, null)
         row.setOnClickListener {
+            val input = EditText(this).apply {
+                setText(subtitle.text)
+                setSingleLine()
+                setSelection(text.length)
+            }
+            AlertDialog.Builder(this)
+                .setTitle(label)
+                .setView(input)
+                .setPositiveButton(android.R.string.ok) { _, _ ->
+                    val value = input.text.toString().trim()
+                    WidgetPrefs.setString(this, widgetId, key, value)
+                    subtitle.text = value.ifEmpty { default }
+                }
+                .setNegativeButton(android.R.string.cancel, null)
+                .show()
+        }
+        content.addView(row)
+    }
+
+    /** Stores the picked date as "yyyy-MM-dd". */
+    protected fun addDateRow(label: String, key: String) {
+        val subtitle = TextView(this).apply {
+            textSize = 13f
+            text = WidgetPrefs.getString(this@ConfigActivity, widgetId, key) ?: "Not set"
+        }
+        val row = row(label, subtitle, null)
+        row.setOnClickListener {
+            val saved = WidgetPrefs.getString(this, widgetId, key)?.split("-")?.mapNotNull { it.toIntOrNull() }
+            val today = java.util.Calendar.getInstance()
+            val (y, m, d) = if (saved != null && saved.size == 3) {
+                Triple(saved[0], saved[1] - 1, saved[2])
+            } else {
+                Triple(today.get(java.util.Calendar.YEAR), today.get(java.util.Calendar.MONTH), today.get(java.util.Calendar.DAY_OF_MONTH))
+            }
+            DatePickerDialog(this, { _, year, month, day ->
+                val value = String.format("%04d-%02d-%02d", year, month + 1, day)
+                WidgetPrefs.setString(this, widgetId, key, value)
+                subtitle.text = value
+            }, y, m, d).show()
+        }
+        content.addView(row)
+    }
+
+    protected fun addAppRow(label: String, key: String = WidgetPrefs.KEY_TAP_PACKAGE) {
+        val subtitle = TextView(this).apply { textSize = 13f }
+        appSubtitles[key] = subtitle
+        showTapApp(subtitle, key)
+        val row = row(label, subtitle, null)
+        row.setOnClickListener {
+            pendingAppKey = key
             @Suppress("DEPRECATION")
             startActivityForResult(Intent(this, AppPickerActivity::class.java), REQ_APP)
         }
@@ -213,8 +267,8 @@ open class ConfigActivity : Activity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQ_APP && resultCode == RESULT_OK) {
             val pkg = data?.getStringExtra(AppPickerActivity.EXTRA_PACKAGE).orEmpty()
-            WidgetPrefs.setString(this, widgetId, WidgetPrefs.KEY_TAP_PACKAGE, pkg)
-            appSubtitle?.let { showTapApp(it) }
+            WidgetPrefs.setString(this, widgetId, pendingAppKey, pkg)
+            appSubtitles[pendingAppKey]?.let { showTapApp(it, pendingAppKey) }
         }
         if (requestCode == REQ_IMAGE && resultCode == RESULT_OK) {
             val uri = data?.data
@@ -225,8 +279,8 @@ open class ConfigActivity : Activity() {
         }
     }
 
-    private fun showTapApp(view: TextView) {
-        val pkg = WidgetPrefs.getString(this, widgetId, WidgetPrefs.KEY_TAP_PACKAGE)
+    private fun showTapApp(view: TextView, key: String) {
+        val pkg = WidgetPrefs.getString(this, widgetId, key)
         view.text = if (pkg.isNullOrEmpty()) "None (opens widget settings)" else try {
             packageManager.getApplicationLabel(packageManager.getApplicationInfo(pkg, 0))
         } catch (e: PackageManager.NameNotFoundException) {

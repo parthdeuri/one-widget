@@ -84,6 +84,26 @@
             </intent-filter>
         </activity>
 
+        <receiver
+            android:name=".providers.CombinedProvider"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="android.app.action.NEXT_ALARM_CLOCK_CHANGED" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/combined_info" />
+        </receiver>
+
+        <activity
+            android:name=".config.CombinedConfigActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".config.AppPickerActivity"
             android:exported="false" />
