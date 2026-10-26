@@ -5,8 +5,10 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.ScrollView
+import android.widget.Switch
 import android.widget.TextView
 import com.parth.widgets.prefs.WidgetPrefs
 
@@ -45,6 +47,25 @@ open class ConfigActivity : Activity() {
             }
         }
         content.addView(row)
+    }
+
+    protected fun addSwitchRow(label: String, key: String, default: Boolean) {
+        content.addView(Switch(this).apply {
+            text = label
+            textSize = 16f
+            setPadding(0, dp(12), 0, dp(12))
+            isChecked = WidgetPrefs.getBool(this@ConfigActivity, widgetId, key, default)
+            setOnCheckedChangeListener { _, checked ->
+                WidgetPrefs.setBool(this@ConfigActivity, widgetId, key, checked)
+            }
+        })
+    }
+
+    protected fun addButton(label: String, onClick: () -> Unit) {
+        content.addView(Button(this).apply {
+            text = label
+            setOnClickListener { onClick() }
+        })
     }
 
     protected fun addAppRow(label: String) {
