@@ -7,7 +7,9 @@ import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.os.Bundle
 import android.widget.RemoteViews
+import com.parth.onewidget.render.BackgroundRenderer
 import com.parth.onewidget.R
 import com.parth.onewidget.config.CalendarConfigActivity
 import com.parth.onewidget.prefs.TapAction
@@ -71,7 +73,7 @@ class CalendarProvider : AppWidgetProvider() {
 
             val header = color(KEY_HEADER, DEFAULT_HEADER)
             val views = RemoteViews(context.packageName, R.layout.widget_calendar)
-            views.setInt(R.id.bg, "setColorFilter", color(KEY_BG, DEFAULT_BG))
+            views.setImageViewBitmap(R.id.bg, BackgroundRenderer.renderFor(context, id, DEFAULT_BG))
             views.setImageViewBitmap(R.id.grid, grid)
             views.setTextViewText(R.id.title, SimpleDateFormat("MMMM yyyy", Locale.getDefault()).format(shown.time))
             listOf(R.id.title, R.id.prev, R.id.next).forEach { views.setTextColor(it, header) }
@@ -123,6 +125,10 @@ class CalendarProvider : AppWidgetProvider() {
     override fun onUpdate(context: Context, manager: AppWidgetManager, ids: IntArray) {
         ids.forEach { update(context, it) }
         scheduleMidnight(context)
+    }
+
+    override fun onAppWidgetOptionsChanged(context: Context, manager: AppWidgetManager, id: Int, newOptions: Bundle) {
+        update(context, id)
     }
 
     override fun onDeleted(context: Context, ids: IntArray) {

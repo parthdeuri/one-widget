@@ -1,6 +1,7 @@
 package com.parth.onewidget.prefs
 
 import android.content.Context
+import com.parth.onewidget.render.BackgroundRenderer
 
 /** Per-widget settings, stored as "<appWidgetId>_<name>" in one SharedPreferences file. */
 object WidgetPrefs {
@@ -35,5 +36,6 @@ object WidgetPrefs {
         val edit = sp(c).edit()
         sp(c).all.keys.filter { it.startsWith("${id}_") }.forEach { edit.remove(it) }
         edit.apply()
+        BackgroundRenderer.imageFile(c, id).delete()
     }
 }

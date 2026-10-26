@@ -7,7 +7,9 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.text.format.DateFormat
+import android.os.Bundle
 import android.view.View
+import com.parth.onewidget.render.BackgroundRenderer
 import android.widget.RemoteViews
 import com.parth.onewidget.R
 import com.parth.onewidget.config.ClockDigitalConfigActivity
@@ -39,7 +41,7 @@ class ClockDigitalProvider : AppWidgetProvider() {
                 if (flag(KEY_SECONDS, false)) ":ss" else ""
 
             val views = RemoteViews(context.packageName, R.layout.widget_clock_digital)
-            views.setInt(R.id.bg, "setColorFilter", p(KEY_BG, DEFAULT_BG))
+            views.setImageViewBitmap(R.id.bg, BackgroundRenderer.renderFor(context, id, DEFAULT_BG))
 
             // Set both formats so the choice overrides the system 12/24h setting.
             views.setCharSequence(R.id.time, "setFormat12Hour", timeFormat)
@@ -73,6 +75,10 @@ class ClockDigitalProvider : AppWidgetProvider() {
 
     override fun onUpdate(context: Context, manager: AppWidgetManager, ids: IntArray) {
         ids.forEach { update(context, it) }
+    }
+
+    override fun onAppWidgetOptionsChanged(context: Context, manager: AppWidgetManager, id: Int, newOptions: Bundle) {
+        update(context, id)
     }
 
     override fun onDeleted(context: Context, ids: IntArray) {

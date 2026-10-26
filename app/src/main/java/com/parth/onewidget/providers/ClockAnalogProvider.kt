@@ -7,8 +7,11 @@ import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Build
+import android.os.Bundle
 import android.widget.RemoteViews
+import com.parth.onewidget.render.BackgroundRenderer
 import com.parth.onewidget.R
 import com.parth.onewidget.config.ClockAnalogConfigActivity
 import com.parth.onewidget.prefs.TapAction
@@ -24,6 +27,11 @@ class ClockAnalogProvider : AppWidgetProvider() {
         const val KEY_HOUR = "hour_hand"
         const val KEY_MINUTE = "minute_hand"
         const val KEY_NUMBERS = "numbers"
+        const val KEY_BG = "bg"
+        const val KEY_FACE_OPACITY = "face_opacity"
+
+        /** Transparent by default, so the clock face floats on the wallpaper as before. */
+        const val DEFAULT_BG = 0x00000000
 
         const val DEFAULT_FACE = 0xFF212121.toInt()
         const val DEFAULT_TICKS = 0xFFBDBDBD.toInt()
@@ -34,8 +42,11 @@ class ClockAnalogProvider : AppWidgetProvider() {
         private const val BITMAP_SIZE = 400
 
         fun update(context: Context, id: Int) {
+            val faceBase = WidgetPrefs.getColor(context, id, KEY_FACE, DEFAULT_FACE)
+            val faceAlpha = Color.alpha(faceBase) *
+                WidgetPrefs.getInt(context, id, KEY_FACE_OPACITY, 100).coerceIn(0, 100) / 100
             val colors = AnalogClockRenderer.Colors(
-                face = WidgetPrefs.getColor(context, id, KEY_FACE, DEFAULT_FACE),
+                face = (faceBase and 0x00FFFFFF) or (faceAlpha shl 24),
                 ticks = WidgetPrefs.getColor(context, id, KEY_TICKS, DEFAULT_TICKS),
                 hourHand = WidgetPrefs.getColor(context, id, KEY_HOUR, DEFAULT_HOUR),
                 minuteHand = WidgetPrefs.getColor(context, id, KEY_MINUTE, DEFAULT_MINUTE),
@@ -48,6 +59,7 @@ class ClockAnalogProvider : AppWidgetProvider() {
             )
 
             val views = RemoteViews(context.packageName, R.layout.widget_clock_analog)
+            views.setImageViewBitmap(R.id.bg, BackgroundRenderer.renderFor(context, id, DEFAULT_BG))
             views.setImageViewBitmap(R.id.face, bitmap)
             val settings = Intent(context, ClockAnalogConfigActivity::class.java)
                 .putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, id)
@@ -78,6 +90,10 @@ class ClockAnalogProvider : AppWidgetProvider() {
     override fun onUpdate(context: Context, manager: AppWidgetManager, ids: IntArray) {
         ids.forEach { update(context, it) }
         scheduleNext(context)
+    }
+
+    override fun onAppWidgetOptionsChanged(context: Context, manager: AppWidgetManager, id: Int, newOptions: Bundle) {
+        update(context, id)
     }
 
     override fun onDeleted(context: Context, ids: IntArray) {
