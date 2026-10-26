@@ -35,6 +35,8 @@ class ClockDigitalConfigActivity : ConfigActivity() {
         addSwitchRow("24-hour time", P.KEY_24H, false)
         addSwitchRow("Show seconds", P.KEY_SECONDS, false)
         addSwitchRow("Show date", P.KEY_SHOW_DATE, true)
+        addChoiceRow("Date position", P.KEY_DATE_POSITION, P.DATE_POSITIONS, 0)
+        addChoiceRow("Date format", P.KEY_DATE_FORMAT, P.DATE_FORMAT_LABELS, 0)
         addSwitchRow("Show next alarm", P.KEY_SHOW_ALARM, true)
         addSwitchRow("Auto-fit time size to widget", P.KEY_AUTO_FIT, true)
         addSliderRow("Time size (when auto-fit is off)", P.KEY_TIME_SIZE, 16, 120, 48, "sp")

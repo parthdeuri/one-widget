@@ -3,19 +3,24 @@
     android:id="@+id/clock_panel"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
+    android:gravity="center_horizontal"
     android:orientation="vertical"
     android:padding="4dp">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
     <TextClock
         android:id="@+id/time"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="4"
         android:autoSizeMaxTextSize="64sp"
         android:autoSizeMinTextSize="14sp"
         android:autoSizeTextType="uniform"
-        android:gravity="center"
+        android:gravity="center_horizontal|bottom"
         android:maxLines="1"
         android:textColor="#FFFFFFFF" />
 
@@ -32,4 +37,9 @@
         android:layout_height="wrap_content"
         android:textColor="#FFFFB74D"
         android:textSize="12sp" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 </LinearLayout>

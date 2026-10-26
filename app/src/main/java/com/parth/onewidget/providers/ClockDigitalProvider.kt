@@ -31,6 +31,12 @@ class ClockDigitalProvider : AppWidgetProvider() {
         const val KEY_AUTO_FIT = "time_auto_fit"
         const val KEY_TIME_SIZE = "time_size"
         const val KEY_DATE_SIZE = "date_size"
+        const val KEY_DATE_POSITION = "date_position"
+        const val KEY_DATE_FORMAT = "date_format"
+
+        val DATE_POSITIONS = listOf("Below the time", "Above the time")
+        val DATE_FORMATS = listOf("EEE, d MMM", "EEEE, d MMMM", "d MMM yyyy", "MMM d", "dd/MM/yyyy", "yyyy-MM-dd")
+        val DATE_FORMAT_LABELS = listOf("Mon, 5 Jan", "Monday, 5 January", "5 Jan 2026", "Jan 5", "05/01/2026", "2026-01-05")
         const val KEY_ALARM_SIZE = "alarm_size"
 
         const val DEFAULT_BG = 0xCC000000.toInt()
@@ -45,7 +51,11 @@ class ClockDigitalProvider : AppWidgetProvider() {
             val timeFormat = (if (flag(KEY_24H, false)) "HH:mm" else "h:mm") +
                 if (flag(KEY_SECONDS, false)) ":ss" else ""
 
-            val views = RemoteViews(context.packageName, R.layout.widget_clock_digital)
+            val dateAbove = p(KEY_DATE_POSITION, 0) == 1
+            val views = RemoteViews(
+                context.packageName,
+                if (dateAbove) R.layout.widget_clock_digital_above else R.layout.widget_clock_digital
+            )
             views.setImageViewBitmap(R.id.bg, BackgroundRenderer.renderFor(context, id, DEFAULT_BG))
 
             // Set both formats so the choice overrides the system 12/24h setting.
@@ -64,8 +74,9 @@ class ClockDigitalProvider : AppWidgetProvider() {
             views.setTextViewTextSize(R.id.alarm, TypedValue.COMPLEX_UNIT_SP, p(KEY_ALARM_SIZE, 12).toFloat())
 
             views.setViewVisibility(R.id.date, if (flag(KEY_SHOW_DATE, true)) View.VISIBLE else View.GONE)
-            views.setCharSequence(R.id.date, "setFormat12Hour", "EEE, d MMM")
-            views.setCharSequence(R.id.date, "setFormat24Hour", "EEE, d MMM")
+            val dateFormat = DATE_FORMATS[p(KEY_DATE_FORMAT, 0).coerceIn(0, DATE_FORMATS.lastIndex)]
+            views.setCharSequence(R.id.date, "setFormat12Hour", dateFormat)
+            views.setCharSequence(R.id.date, "setFormat24Hour", dateFormat)
             views.setTextColor(R.id.date, p(KEY_DATE, DEFAULT_DATE))
 
             val nextAlarm = if (flag(KEY_SHOW_ALARM, true)) {

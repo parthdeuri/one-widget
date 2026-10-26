@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Date below the time. The two empty FrameLayouts centre the time + date + alarm block;
+     the time text sits at the bottom of its box so the date follows it directly. -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/root"
     android:layout_width="match_parent"
@@ -13,19 +15,24 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
+        android:gravity="center_horizontal"
         android:orientation="vertical"
         android:padding="12dp">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
         <TextClock
             android:id="@+id/time"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_weight="4"
             android:autoSizeMaxTextSize="72sp"
             android:autoSizeMinTextSize="16sp"
             android:autoSizeTextType="uniform"
-            android:gravity="center"
+            android:gravity="center_horizontal|bottom"
             android:maxLines="1"
             android:textColor="#FFFFFFFF" />
 
@@ -33,9 +40,8 @@
         <TextClock
             android:id="@+id/time_fixed"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
             android:maxLines="1"
             android:textColor="#FFFFFFFF"
             android:textSize="48sp"
@@ -54,5 +60,10 @@
             android:layout_height="wrap_content"
             android:textColor="#FFFFB74D"
             android:textSize="12sp" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
     </LinearLayout>
 </FrameLayout>

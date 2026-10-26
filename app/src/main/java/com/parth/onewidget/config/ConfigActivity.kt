@@ -194,7 +194,9 @@ open class ConfigActivity : Activity() {
         content.addView(HorizontalScrollView(this).apply {
             isHorizontalScrollBarEnabled = false
             addView(buttons)
-        })
+        }, LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT
+        ).apply { bottomMargin = dp(16) })
     }
 
     protected fun addSliderRow(label: String, key: String, min: Int, max: Int, default: Int, suffix: String = "") {
