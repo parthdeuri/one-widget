@@ -7,4 +7,5 @@
     android:minHeight="250dp"
     android:resizeMode="horizontal|vertical"
     android:updatePeriodMillis="0"
+    android:widgetFeatures="reconfigurable"
     android:widgetCategory="home_screen" />

@@ -22,6 +22,12 @@ class ClockAnalogConfigActivity : ConfigActivity() {
         val result = Intent().putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId)
         setResult(RESULT_CANCELED, result)
 
+        addPresetRow(listOf(
+            preset("Dark", P.KEY_FACE to "#FF212121", P.KEY_TICKS to "#FFBDBDBD", P.KEY_HOUR to "#FFFFFFFF", P.KEY_MINUTE to "#FF4FC3F7"),
+            preset("Light", P.KEY_FACE to "#FFFAFAFA", P.KEY_TICKS to "#FF616161", P.KEY_HOUR to "#FF212121", P.KEY_MINUTE to "#FFD32F2F"),
+            preset("Ocean", P.KEY_FACE to "#FF0D47A1", P.KEY_TICKS to "#FFBBDEFB", P.KEY_HOUR to "#FFFFFFFF", P.KEY_MINUTE to "#FF80DEEA"),
+            preset("Sunset", P.KEY_FACE to "#FFBF360C", P.KEY_TICKS to "#FFFFCCBC", P.KEY_HOUR to "#FFFFF3E0", P.KEY_MINUTE to "#FFFFEB3B"),
+        ))
         addColorRow("Face colour", P.KEY_FACE, P.DEFAULT_FACE)
         addColorRow("Ticks and numbers colour", P.KEY_TICKS, P.DEFAULT_TICKS)
         addColorRow("Hour hand colour", P.KEY_HOUR, P.DEFAULT_HOUR)

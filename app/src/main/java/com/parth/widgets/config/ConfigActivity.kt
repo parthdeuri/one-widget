@@ -5,7 +5,9 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
+import android.graphics.Color
 import android.widget.Button
+import android.widget.HorizontalScrollView
 import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.Switch
@@ -47,6 +49,27 @@ open class ConfigActivity : Activity() {
             }
         }
         content.addView(row)
+    }
+
+    protected class Preset(val name: String, val colors: Map<String, Int>)
+
+    protected fun preset(name: String, vararg colors: Pair<String, String>) =
+        Preset(name, colors.associate { it.first to Color.parseColor(it.second) })
+
+    /** A scrolling row of buttons; each applies its colours, then reloads the screen. */
+    protected fun addPresetRow(presets: List<Preset>) {
+        val buttons = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
+        presets.forEach { preset ->
+            buttons.addView(Button(this).apply {
+                text = preset.name
+                setOnClickListener {
+                    preset.colors.forEach { (key, value) -> WidgetPrefs.setColor(this@ConfigActivity, widgetId, key, value) }
+                    recreate()
+                }
+            })
+        }
+        content.addView(TextView(this).apply { text = "Theme presets"; textSize = 16f })
+        content.addView(HorizontalScrollView(this).apply { addView(buttons) })
     }
 
     protected fun addSwitchRow(label: String, key: String, default: Boolean) {

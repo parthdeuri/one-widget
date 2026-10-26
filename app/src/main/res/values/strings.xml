@@ -4,5 +4,6 @@
     <string name="widget_clock_digital_desc">Digital clock with date and next alarm</string>
     <string name="widget_clock_analog_desc">Analog clock with customizable colours</string>
     <string name="widget_calendar_desc">Month calendar with customizable colours</string>
-    <string name="home_hint">Long-press your home screen and add a widget from Widgets.</string>
+    <string name="home_hint">Long-press your home screen and add a widget from Widgets. Widgets on your home screen are listed here so you can change their colours and tap action.</string>
+    <string name="no_widgets">No widgets placed yet.</string>
 </resources>
