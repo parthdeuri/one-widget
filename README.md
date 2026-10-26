@@ -27,6 +27,10 @@ Every widget has its own settings screen (opens when you place it; long-press a 
 - Tap action: pick any installed app to open when the widget is tapped. If none is set, tapping opens the widget's settings.
 - All widgets are resizable; backgrounds are redrawn at the new size.
 
+## Releases
+
+Pushing a tag that starts with `v` (for example `v0.1`) builds the app and publishes a GitHub release with the APK attached, using `RELEASE_NOTES.md` as the notes. Edit that file before tagging a new version.
+
 ## Install
 
 There is no local Android SDK setup. GitHub Actions builds the APK:

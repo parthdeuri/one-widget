@@ -13,8 +13,10 @@ android {
         applicationId = "com.parth.onewidget"
         minSdk = 26
         targetSdk = 34
-        versionCode = 1
-        versionName = "0.1.0"
+        // CI numbers builds by run so every new build can install over the previous one;
+        // a release tag such as v0.1 sets the visible version name.
+        versionCode = System.getenv("GITHUB_RUN_NUMBER")?.toIntOrNull() ?: 1
+        versionName = System.getenv("GITHUB_REF_NAME")?.takeIf { it.startsWith("v") }?.removePrefix("v") ?: "0.1"
     }
 
     // A fixed signing key (supplied by CI from repository secrets) lets new builds install as
