@@ -11,10 +11,12 @@ import com.parth.onewidget.config.ClockAnalogConfigActivity
 import com.parth.onewidget.config.ClockDigitalConfigActivity
 import com.parth.onewidget.config.CombinedConfigActivity
 import com.parth.onewidget.config.ConfigActivity
+import com.parth.onewidget.config.CountdownConfigActivity
 import com.parth.onewidget.providers.CalendarProvider
 import com.parth.onewidget.providers.ClockAnalogProvider
 import com.parth.onewidget.providers.ClockDigitalProvider
 import com.parth.onewidget.providers.CombinedProvider
+import com.parth.onewidget.providers.CountdownProvider
 
 /** Lists the widgets currently on the home screen, each with a button to reopen its settings. */
 class MainActivity : ConfigActivity() {
@@ -26,6 +28,7 @@ class MainActivity : ConfigActivity() {
         Kind("Analog clock", ClockAnalogProvider::class.java, ClockAnalogConfigActivity::class.java),
         Kind("Calendar", CalendarProvider::class.java, CalendarConfigActivity::class.java),
         Kind("Clock + calendar", CombinedProvider::class.java, CombinedConfigActivity::class.java),
+        Kind("Countdown", CountdownProvider::class.java, CountdownConfigActivity::class.java),
     )
 
     override fun onResume() {

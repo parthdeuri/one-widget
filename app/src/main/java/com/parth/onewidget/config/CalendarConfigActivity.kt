@@ -1,7 +1,9 @@
 package com.parth.onewidget.config
 
+import android.Manifest
 import android.appwidget.AppWidgetManager
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import com.parth.onewidget.render.Bg
 import com.parth.onewidget.providers.CalendarProvider as P
@@ -40,6 +42,13 @@ class CalendarConfigActivity : ConfigActivity() {
         addColorRow("Today highlight", P.KEY_TODAY_CIRCLE, P.DEFAULT_TODAY_CIRCLE)
         addColorRow("Today number", P.KEY_TODAY_TEXT, P.DEFAULT_TODAY_TEXT)
         addSwitchRow("Week starts on Monday", P.KEY_MONDAY_FIRST, false)
+        addSwitchRow("Show dots on days with events", P.KEY_EVENT_DOTS, false)
+        addColorRow("Event dot colour", P.KEY_EVENT_DOT, P.DEFAULT_EVENT_DOT)
+        if (checkSelfPermission(Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+            addButton("Allow calendar access for event dots") {
+                requestPermissions(arrayOf(Manifest.permission.READ_CALENDAR), 100)
+            }
+        }
         addSliderRow("Month title size", P.KEY_TITLE_SIZE, 10, 28, 16, "sp")
         addSliderRow("Day number size", P.KEY_NUMBER_SCALE, 60, 160, 100, "%")
         addBackgroundSection(P.DEFAULT_BG)

@@ -15,7 +15,25 @@ android {
         versionName = "0.1.0"
     }
 
+    // A fixed signing key (supplied by CI from repository secrets) lets new builds install as
+    // updates. Without it Gradle falls back to a throwaway debug key and each build differs.
+    val keystorePath = System.getenv("KEYSTORE_FILE")
+    if (!keystorePath.isNullOrEmpty()) {
+        signingConfigs {
+            create("shared") {
+                storeFile = file(keystorePath)
+                storeType = "pkcs12"
+                storePassword = System.getenv("KEYSTORE_PASSWORD")
+                keyAlias = System.getenv("KEY_ALIAS")
+                keyPassword = System.getenv("KEY_PASSWORD")
+            }
+        }
+    }
+
     buildTypes {
+        debug {
+            if (!keystorePath.isNullOrEmpty()) signingConfig = signingConfigs.getByName("shared")
+        }
         release {
             isMinifyEnabled = false
         }

@@ -8,7 +8,10 @@ Customizable Android home-screen widgets, written in Kotlin with no third-party 
 - **Analog clock**: redrawn every minute; colours for face, ticks, hour hand and minute hand, optional numbers.
 - **Calendar**: month grid with ‹ › navigation, tap the title to jump back to today, optional Monday start.
 
-Coming next: text size controls, a combined clock + calendar widget, a countdown widget, and event dots on the calendar.
+- **Clock + calendar**: both together in one widget, side by side or stacked, either one first. Each side opens its own app when tapped.
+- **Countdown**: days until (or since) a date you pick, with your own label.
+
+The calendar can show a dot under days that have events (asks for the Calendar permission). Coming next: a sakura-style redesign of the app screens.
 
 ## Customization
 
@@ -54,6 +57,7 @@ CI runs `gradle assembleDebug` with Gradle 8.9, JDK 17, AGP 8.5.2 and Kotlin 1.9
 ## Permissions
 
 - `SCHEDULE_EXACT_ALARM`: lets the analog clock redraw exactly on the minute. Without it the hands may lag by a minute or two; the clock's settings screen links to the system toggle on Android 12+.
+- `READ_CALENDAR`: only used for the optional event dots on the calendar widget, and only asked for from its settings screen.
 
 ## Known limitations
 

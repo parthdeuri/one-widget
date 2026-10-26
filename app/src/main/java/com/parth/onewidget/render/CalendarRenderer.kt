@@ -15,6 +15,7 @@ object CalendarRenderer {
         val weekend: Int,
         val todayCircle: Int,
         val todayText: Int,
+        val eventDot: Int = 0xFFFFB74D.toInt(),
     )
 
     /**
@@ -23,7 +24,7 @@ object CalendarRenderer {
      */
     fun render(
         size: Int, firstOfMonth: Calendar, today: Int, mondayFirst: Boolean, colors: Colors,
-        textScale: Float = 1f,
+        textScale: Float = 1f, eventDays: Set<Int> = emptySet(),
     ): Bitmap {
         val bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
@@ -64,6 +65,10 @@ object CalendarRenderer {
                 paint.color = if (isWeekend(col)) colors.weekend else colors.day
             }
             canvas.drawText(day.toString(), cx, cy + baseline, paint)
+            if (day in eventDays) {
+                paint.color = if (day == today) colors.todayText else colors.eventDot
+                canvas.drawCircle(cx, cy + cell * 0.32f, cell * 0.06f, paint)
+            }
         }
         return bitmap
     }

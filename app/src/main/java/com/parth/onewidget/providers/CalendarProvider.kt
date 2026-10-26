@@ -16,6 +16,7 @@ import com.parth.onewidget.config.CalendarConfigActivity
 import com.parth.onewidget.prefs.TapAction
 import com.parth.onewidget.prefs.WidgetPrefs
 import com.parth.onewidget.render.CalendarRenderer
+import com.parth.onewidget.render.EventDays
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -31,6 +32,9 @@ class CalendarProvider : AppWidgetProvider() {
         const val KEY_TODAY_CIRCLE = "today_circle"
         const val KEY_TODAY_TEXT = "today_text"
         const val KEY_MONDAY_FIRST = "monday_first"
+        const val KEY_EVENT_DOTS = "event_dots"
+        const val KEY_EVENT_DOT = "event_dot_color"
+        const val DEFAULT_EVENT_DOT = 0xFFFFB74D.toInt()
         const val KEY_TITLE_SIZE = "title_size"
         const val KEY_NUMBER_SCALE = "number_scale"
         private const val KEY_OFFSET = "month_offset"
@@ -71,8 +75,12 @@ class CalendarProvider : AppWidgetProvider() {
                     weekend = color(KEY_WEEKEND, DEFAULT_WEEKEND),
                     todayCircle = color(KEY_TODAY_CIRCLE, DEFAULT_TODAY_CIRCLE),
                     todayText = color(KEY_TODAY_TEXT, DEFAULT_TODAY_TEXT),
+                    eventDot = color(KEY_EVENT_DOT, DEFAULT_EVENT_DOT),
                 ),
                 textScale = WidgetPrefs.getInt(context, id, KEY_NUMBER_SCALE, 100) / 100f,
+                eventDays = if (WidgetPrefs.getBool(context, id, KEY_EVENT_DOTS, false)) {
+                    EventDays.forMonth(context, shown)
+                } else emptySet(),
             )
 
             val header = color(KEY_HEADER, DEFAULT_HEADER)
