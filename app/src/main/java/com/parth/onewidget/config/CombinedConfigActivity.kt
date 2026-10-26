@@ -22,27 +22,13 @@ class CombinedConfigActivity : ConfigActivity() {
         val result = Intent().putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId)
         setResult(RESULT_CANCELED, result)
 
-        fun theme(
-            name: String, bg: String, time: String, date: String, alarm: String,
-            header: String, weekday: String, day: String, weekend: String, circle: String, circleText: String,
-            vararg extra: Pair<String, String>,
-        ) = preset(
-            name, Bg.KEY_BG to bg,
-            P.CLK_TIME to time, P.CLK_DATE to date, P.CLK_ALARM to alarm,
-            P.CAL_HEADER to header, P.CAL_WEEKDAY to weekday, P.CAL_DAY to day, P.CAL_WEEKEND to weekend,
-            P.CAL_TODAY_CIRCLE to circle, P.CAL_TODAY_TEXT to circleText,
-            *extra,
-        )
-        addPresetRow(listOf(
-            theme("Dark", "#CC000000", "#FFFFFFFF", "#FFCCCCCC", "#FFFFB74D",
-                "#FFFFFFFF", "#FF9E9E9E", "#FFFFFFFF", "#FFFF8A80", "#FF4FC3F7", "#FF000000", *Bg.PLAIN),
-            theme("Light", "#E6FFFFFF", "#FF212121", "#FF616161", "#FFE65100",
-                "#FF212121", "#FF757575", "#FF212121", "#FFD32F2F", "#FF1976D2", "#FFFFFFFF", *Bg.PLAIN),
-            theme("Cherry blossom", "#FFFFE4EC", "#FF880E4F", "#FFAD1457", "#FFC2185B",
-                "#FF880E4F", "#FFAD1457", "#FF6D1B3B", "#FFD81B60", "#FFEC407A", "#FFFFFFFF",
-                Bg.GRADIENT to "true", Bg.COLOR2 to "#FFF8BBD0", Bg.PATTERN to "6",
-                Bg.PATTERN_COLOR to "#FFF06292", Bg.PATTERN_STRENGTH to "55"),
-        ))
+        addThemeRow { s ->
+            arrayOf(
+                P.CLK_TIME to s.text, P.CLK_DATE to s.sub, P.CLK_ALARM to s.accent,
+                P.CAL_HEADER to s.text, P.CAL_WEEKDAY to s.sub, P.CAL_DAY to s.text, P.CAL_WEEKEND to s.weekend,
+                P.CAL_TODAY_CIRCLE to s.highlight, P.CAL_TODAY_TEXT to s.onHighlight,
+            )
+        }
 
         addSwitchRow("Stack vertically (otherwise side by side)", P.KEY_STACKED, false)
         addSwitchRow("Swap: calendar first (left or top)", P.KEY_SWAP, false)

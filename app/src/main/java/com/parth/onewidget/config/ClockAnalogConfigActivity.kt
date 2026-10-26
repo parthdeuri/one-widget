@@ -24,16 +24,9 @@ class ClockAnalogConfigActivity : ConfigActivity() {
         val result = Intent().putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId)
         setResult(RESULT_CANCELED, result)
 
-        val clear = "#00000000"
-        addPresetRow(listOf(
-            preset("Dark", *Bg.PLAIN, P.KEY_BG to clear, P.KEY_FACE to "#FF212121", P.KEY_TICKS to "#FFBDBDBD", P.KEY_HOUR to "#FFFFFFFF", P.KEY_MINUTE to "#FF4FC3F7"),
-            preset("Light", *Bg.PLAIN, P.KEY_BG to clear, P.KEY_FACE to "#FFFAFAFA", P.KEY_TICKS to "#FF616161", P.KEY_HOUR to "#FF212121", P.KEY_MINUTE to "#FFD32F2F"),
-            preset("Ocean", *Bg.PLAIN, P.KEY_BG to clear, P.KEY_FACE to "#FF0D47A1", P.KEY_TICKS to "#FFBBDEFB", P.KEY_HOUR to "#FFFFFFFF", P.KEY_MINUTE to "#FF80DEEA"),
-            preset("Sunset", *Bg.PLAIN, P.KEY_BG to clear, P.KEY_FACE to "#FFBF360C", P.KEY_TICKS to "#FFFFCCBC", P.KEY_HOUR to "#FFFFF3E0", P.KEY_MINUTE to "#FFFFEB3B"),
-            preset("Cherry blossom", P.KEY_BG to "#FFFFE4EC", Bg.GRADIENT to "true", Bg.COLOR2 to "#FFF8BBD0",
-                Bg.PATTERN to "6", Bg.PATTERN_COLOR to "#FFF06292", Bg.PATTERN_STRENGTH to "55",
-                P.KEY_FACE to "#FFFCE4EC", P.KEY_TICKS to "#FFAD1457", P.KEY_HOUR to "#FF880E4F", P.KEY_MINUTE to "#FFEC407A"),
-        ))
+        addThemeRow(clearBackground = true) { s ->
+            arrayOf(P.KEY_FACE to s.bg, P.KEY_TICKS to s.sub, P.KEY_HOUR to s.text, P.KEY_MINUTE to s.highlight)
+        }
         addColorRow("Face colour", P.KEY_FACE, P.DEFAULT_FACE)
         addSliderRow("Face opacity", P.KEY_FACE_OPACITY, 0, 100, 100, "%")
         addColorRow("Ticks and numbers colour", P.KEY_TICKS, P.DEFAULT_TICKS)

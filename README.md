@@ -20,7 +20,7 @@ The app itself has a sakura look: a pink blossom header, rounded cards, and rose
 Every widget has its own settings screen (opens when you place it; long-press a widget and choose Reconfigure on Android 12+, or use the list on the app's home screen):
 
 - Colours for every element, with a hex / HSV / opacity picker.
-- Theme presets: Dark, Light, Ocean, Sunset, Cherry blossom.
+- Theme presets (colours, gradient and pattern together): Dark, Light, Midnight, Ocean, Sunset, Forest, Lavender, Cherry blossom.
 - Background: solid colour or gradient, opacity from 0 to 100% (fully transparent is allowed), corner roundness.
 - Background patterns: dots, grid, stripes, waves, sparkles, sakura petals, with colour and strength.
 - Background image from your gallery, with dimming so text stays readable.

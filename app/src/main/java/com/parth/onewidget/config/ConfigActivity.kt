@@ -199,6 +199,60 @@ open class ConfigActivity : Activity() {
         ).apply { bottomMargin = dp(16) })
     }
 
+    /** One shared colour theme; each widget maps these roles onto its own setting keys. */
+    protected class ThemeSpec(
+        val name: String,
+        val bg: String, val bg2: String?,
+        val text: String, val sub: String, val accent: String,
+        val highlight: String, val onHighlight: String, val weekend: String,
+        val pattern: Int = 0, val patternColor: String = "#FFFFFFFF", val strength: Int = 40,
+    )
+
+    private val themeSpecs = listOf(
+        ThemeSpec("Dark", "#E6141418", null, "#FFF5F5F7", "#FFB0B3B8", "#FFFFB74D",
+            "#FF64B5F6", "#FF0B0B0F", "#FFFF8A80"),
+        ThemeSpec("Light", "#F2FAFAFA", null, "#FF1F1F24", "#FF5F6368", "#FFD84315",
+            "#FF1976D2", "#FFFFFFFF", "#FFD32F2F"),
+        ThemeSpec("Midnight", "#F20D1B3D", "#F2311B5B", "#FFE8EAF6", "#FF9FA8DA", "#FFFFD54F",
+            "#FF7C4DFF", "#FFFFFFFF", "#FFFF8A80", pattern = 5, strength = 45),
+        ThemeSpec("Ocean", "#F20277BD", "#F200ACC1", "#FFFFFFFF", "#FFE1F5FE", "#FFFFF176",
+            "#FFFFFFFF", "#FF01579B", "#FFFFE082", pattern = 4, strength = 25),
+        ThemeSpec("Sunset", "#F2FF7043", "#F2C2185B", "#FFFFFFFF", "#FFFFE0B2", "#FFFFEB3B",
+            "#FFFFFFFF", "#FFBF360C", "#FFFFF59D", pattern = 1, strength = 20),
+        ThemeSpec("Forest", "#F22E7D32", "#F2004D40", "#FFF1F8E9", "#FFC5E1A5", "#FFFFF176",
+            "#FFAED581", "#FF1B5E20", "#FFFFCC80", pattern = 3, strength = 12),
+        ThemeSpec("Lavender", "#F2EDE7F6", "#F2D1C4E9", "#FF311B92", "#FF5E35B1", "#FFAD1457",
+            "#FF7E57C2", "#FFFFFFFF", "#FFC2185B", pattern = 1, patternColor = "#FFB39DDB", strength = 50),
+        ThemeSpec("Cherry blossom", "#FFFFE4EC", "#FFF8BBD0", "#FF880E4F", "#FFAD1457", "#FFC2185B",
+            "#FFEC407A", "#FFFFFFFF", "#FFD81B60", pattern = 6, patternColor = "#FFF06292", strength = 55),
+    )
+
+    /**
+     * Theme buttons. [colors] maps a theme onto this widget's colour keys; [clearBackground] is
+     * for widgets with no card behind them (the analog clock).
+     */
+    protected fun addThemeRow(clearBackground: Boolean = false, colors: (ThemeSpec) -> Array<Pair<String, String>>) {
+        val presets = mutableListOf<Preset>()
+        themeSpecs.forEach { spec ->
+            val values = linkedMapOf(
+                Bg.KEY_BG to spec.bg,
+                Bg.GRADIENT to (spec.bg2 != null).toString(),
+                Bg.COLOR2 to (spec.bg2 ?: spec.bg),
+                Bg.PATTERN to spec.pattern.toString(),
+                Bg.PATTERN_COLOR to spec.patternColor,
+                Bg.PATTERN_STRENGTH to spec.strength.toString(),
+            )
+            values.putAll(colors(spec))
+            if (clearBackground) {
+                values[Bg.KEY_BG] = "#00000000"
+                values[Bg.GRADIENT] = "false"
+                values[Bg.PATTERN] = "0"
+            }
+            presets += Preset(spec.name, values)
+        }
+        addPresetRow(presets)
+    }
+
     protected fun addSliderRow(label: String, key: String, min: Int, max: Int, default: Int, suffix: String = "") {
         val title = TextView(this).apply { textSize = 16f }
         val current = WidgetPrefs.getInt(this, widgetId, key, default).coerceIn(min, max)
