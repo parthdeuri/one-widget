@@ -1,9 +1,9 @@
-package com.parth.widgets.config
+package com.parth.onewidget.config
 
 import android.appwidget.AppWidgetManager
 import android.content.Intent
 import android.os.Bundle
-import com.parth.widgets.providers.ClockDigitalProvider as P
+import com.parth.onewidget.providers.ClockDigitalProvider as P
 
 class ClockDigitalConfigActivity : ConfigActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

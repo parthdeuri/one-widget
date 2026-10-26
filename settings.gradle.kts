@@ -14,5 +14,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Widgets"
+rootProject.name = "one-widget"
 include(":app")

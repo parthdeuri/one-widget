@@ -1,4 +1,4 @@
-package com.parth.widgets.config
+package com.parth.onewidget.config
 
 import android.app.Activity
 import android.content.Intent

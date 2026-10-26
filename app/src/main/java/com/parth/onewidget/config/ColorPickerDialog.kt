@@ -1,4 +1,4 @@
-package com.parth.widgets.config
+package com.parth.onewidget.config
 
 import android.app.AlertDialog
 import android.content.Context

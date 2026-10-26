@@ -1,4 +1,4 @@
-package com.parth.widgets.render
+package com.parth.onewidget.render
 
 import android.graphics.Bitmap
 import android.graphics.Canvas

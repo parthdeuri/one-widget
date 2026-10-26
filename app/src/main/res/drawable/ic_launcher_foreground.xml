@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Calendar page with a clock badge. Kept inside the 66dp adaptive-icon safe zone. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M36,36 h36 a4,4 0 0 1 4,4 v28 a4,4 0 0 1 -4,4 h-36 a4,4 0 0 1 -4,-4 v-28 a4,4 0 0 1 4,-4 z" />
+    <path
+        android:fillColor="#FFF48FB1"
+        android:pathData="M32,40 a4,4 0 0 1 4,-4 h36 a4,4 0 0 1 4,4 v6 h-44 z" />
+    <path
+        android:fillColor="#FF90A4AE"
+        android:pathData="M37,52 h4 v4 h-4 z M45,52 h4 v4 h-4 z M53,52 h4 v4 h-4 z M61,52 h4 v4 h-4 z M37,60 h4 v4 h-4 z M45,60 h4 v4 h-4 z" />
+    <path
+        android:fillColor="#FFF48FB1"
+        android:pathData="M58,66 a12,12 0 1 0 24,0 a12,12 0 1 0 -24,0 z" />
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M70,66 v-7 M70,66 l5,3"
+        android:strokeColor="#FFFFFFFF"
+        android:strokeLineCap="round"
+        android:strokeWidth="2.5" />
+</vector>

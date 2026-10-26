@@ -1,4 +1,4 @@
-package com.parth.widgets.providers
+package com.parth.onewidget.providers
 
 import android.app.AlarmManager
 import android.app.PendingIntent
@@ -8,11 +8,11 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.widget.RemoteViews
-import com.parth.widgets.R
-import com.parth.widgets.config.CalendarConfigActivity
-import com.parth.widgets.prefs.TapAction
-import com.parth.widgets.prefs.WidgetPrefs
-import com.parth.widgets.render.CalendarRenderer
+import com.parth.onewidget.R
+import com.parth.onewidget.config.CalendarConfigActivity
+import com.parth.onewidget.prefs.TapAction
+import com.parth.onewidget.prefs.WidgetPrefs
+import com.parth.onewidget.render.CalendarRenderer
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -38,10 +38,10 @@ class CalendarProvider : AppWidgetProvider() {
         const val DEFAULT_TODAY_CIRCLE = 0xFF4FC3F7.toInt()
         const val DEFAULT_TODAY_TEXT = 0xFF000000.toInt()
 
-        private const val ACTION_PREV = "com.parth.widgets.CAL_PREV"
-        private const val ACTION_NEXT = "com.parth.widgets.CAL_NEXT"
-        private const val ACTION_TODAY = "com.parth.widgets.CAL_TODAY"
-        private const val ACTION_REFRESH = "com.parth.widgets.CAL_REFRESH"
+        private const val ACTION_PREV = "com.parth.onewidget.CAL_PREV"
+        private const val ACTION_NEXT = "com.parth.onewidget.CAL_NEXT"
+        private const val ACTION_TODAY = "com.parth.onewidget.CAL_TODAY"
+        private const val ACTION_REFRESH = "com.parth.onewidget.CAL_REFRESH"
         private const val GRID_SIZE = 630
 
         fun update(context: Context, id: Int) {

@@ -1,4 +1,4 @@
-package com.parth.widgets.config
+package com.parth.onewidget.config
 
 import android.app.AlarmManager
 import android.appwidget.AppWidgetManager
@@ -7,7 +7,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import com.parth.widgets.providers.ClockAnalogProvider as P
+import com.parth.onewidget.providers.ClockAnalogProvider as P
 
 class ClockAnalogConfigActivity : ConfigActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -1,9 +1,9 @@
-package com.parth.widgets.config
+package com.parth.onewidget.config
 
 import android.appwidget.AppWidgetManager
 import android.content.Intent
 import android.os.Bundle
-import com.parth.widgets.providers.CalendarProvider as P
+import com.parth.onewidget.providers.CalendarProvider as P
 
 class CalendarConfigActivity : ConfigActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

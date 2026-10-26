@@ -1,4 +1,4 @@
-package com.parth.widgets.config
+package com.parth.onewidget.config
 
 import android.app.Activity
 import android.content.Intent
@@ -12,7 +12,7 @@ import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.Switch
 import android.widget.TextView
-import com.parth.widgets.prefs.WidgetPrefs
+import com.parth.onewidget.prefs.WidgetPrefs
 
 /** Base for widget settings screens: set [widgetId], then add rows to [content]. */
 open class ConfigActivity : Activity() {

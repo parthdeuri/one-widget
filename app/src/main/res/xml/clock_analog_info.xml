@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
-    android:configure="com.parth.widgets.config.ClockAnalogConfigActivity"
+    android:configure="com.parth.onewidget.config.ClockAnalogConfigActivity"
     android:description="@string/widget_clock_analog_desc"
     android:initialLayout="@layout/widget_clock_analog"
     android:minWidth="110dp"
     android:minHeight="110dp"
     android:resizeMode="horizontal|vertical"
+    android:previewImage="@drawable/ic_preview_analog"
     android:updatePeriodMillis="0"
     android:widgetFeatures="reconfigurable"
     android:widgetCategory="home_screen" />

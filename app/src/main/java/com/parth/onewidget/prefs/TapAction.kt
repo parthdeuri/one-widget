@@ -1,4 +1,4 @@
-package com.parth.widgets.prefs
+package com.parth.onewidget.prefs
 
 import android.app.PendingIntent
 import android.content.Context

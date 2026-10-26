@@ -1,16 +1,18 @@
-package com.parth.widgets
+package com.parth.onewidget
 
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Intent
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
-import com.parth.widgets.config.CalendarConfigActivity
-import com.parth.widgets.config.ClockAnalogConfigActivity
-import com.parth.widgets.config.ClockDigitalConfigActivity
-import com.parth.widgets.config.ConfigActivity
-import com.parth.widgets.providers.CalendarProvider
-import com.parth.widgets.providers.ClockAnalogProvider
-import com.parth.widgets.providers.ClockDigitalProvider
+import com.parth.onewidget.config.CalendarConfigActivity
+import com.parth.onewidget.config.ClockAnalogConfigActivity
+import com.parth.onewidget.config.ClockDigitalConfigActivity
+import com.parth.onewidget.config.ConfigActivity
+import com.parth.onewidget.providers.CalendarProvider
+import com.parth.onewidget.providers.ClockAnalogProvider
+import com.parth.onewidget.providers.ClockDigitalProvider
 
 /** Lists the widgets currently on the home screen, each with a button to reopen its settings. */
 class MainActivity : ConfigActivity() {
@@ -26,6 +28,13 @@ class MainActivity : ConfigActivity() {
     override fun onResume() {
         super.onResume()
         content.removeAllViews()
+        content.addView(ImageView(this).apply { setImageResource(R.drawable.ic_logo) },
+            LinearLayout.LayoutParams(dp(96), dp(96)))
+        content.addView(TextView(this).apply {
+            text = getString(R.string.app_name)
+            textSize = 24f
+            setPadding(0, dp(8), 0, dp(8))
+        })
         content.addView(TextView(this).apply {
             text = getString(R.string.home_hint)
             textSize = 16f

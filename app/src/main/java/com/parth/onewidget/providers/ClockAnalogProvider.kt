@@ -1,4 +1,4 @@
-package com.parth.widgets.providers
+package com.parth.onewidget.providers
 
 import android.app.AlarmManager
 import android.app.PendingIntent
@@ -9,11 +9,11 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.widget.RemoteViews
-import com.parth.widgets.R
-import com.parth.widgets.config.ClockAnalogConfigActivity
-import com.parth.widgets.prefs.TapAction
-import com.parth.widgets.prefs.WidgetPrefs
-import com.parth.widgets.render.AnalogClockRenderer
+import com.parth.onewidget.R
+import com.parth.onewidget.config.ClockAnalogConfigActivity
+import com.parth.onewidget.prefs.TapAction
+import com.parth.onewidget.prefs.WidgetPrefs
+import com.parth.onewidget.render.AnalogClockRenderer
 import java.util.Calendar
 
 class ClockAnalogProvider : AppWidgetProvider() {
@@ -30,7 +30,7 @@ class ClockAnalogProvider : AppWidgetProvider() {
         const val DEFAULT_HOUR = 0xFFFFFFFF.toInt()
         const val DEFAULT_MINUTE = 0xFF4FC3F7.toInt()
 
-        private const val ACTION_TICK = "com.parth.widgets.ANALOG_TICK"
+        private const val ACTION_TICK = "com.parth.onewidget.ANALOG_TICK"
         private const val BITMAP_SIZE = 400
 
         fun update(context: Context, id: Int) {

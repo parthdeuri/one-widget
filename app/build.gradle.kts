@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.parth.widgets"
+    namespace = "com.parth.onewidget"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.parth.widgets"
+        applicationId = "com.parth.onewidget"
         minSdk = 26
         targetSdk = 34
         versionCode = 1

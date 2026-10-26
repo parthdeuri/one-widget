@@ -1,4 +1,4 @@
-package com.parth.widgets.providers
+package com.parth.onewidget.providers
 
 import android.app.AlarmManager
 import android.appwidget.AppWidgetManager
@@ -9,10 +9,10 @@ import android.content.Intent
 import android.text.format.DateFormat
 import android.view.View
 import android.widget.RemoteViews
-import com.parth.widgets.R
-import com.parth.widgets.config.ClockDigitalConfigActivity
-import com.parth.widgets.prefs.TapAction
-import com.parth.widgets.prefs.WidgetPrefs
+import com.parth.onewidget.R
+import com.parth.onewidget.config.ClockDigitalConfigActivity
+import com.parth.onewidget.prefs.TapAction
+import com.parth.onewidget.prefs.WidgetPrefs
 
 class ClockDigitalProvider : AppWidgetProvider() {
 
