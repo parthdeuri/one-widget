@@ -1,3 +1,5 @@
+import java.security.KeyStore
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -22,7 +24,7 @@ android {
         val password = System.getenv("KEYSTORE_PASSWORD") ?: ""
         // A keystore exported by Windows does not keep the alias it was given, so fall back to
         // whichever alias the store really contains.
-        val store = java.security.KeyStore.getInstance("pkcs12").apply {
+        val store = KeyStore.getInstance("pkcs12").apply {
             file(keystorePath).inputStream().use { load(it, password.toCharArray()) }
         }
         val wantedAlias = System.getenv("KEY_ALIAS") ?: ""
