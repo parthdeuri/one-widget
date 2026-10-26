@@ -1,5 +1,6 @@
 package com.parth.onewidget
 
+import android.app.AlertDialog
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Intent
@@ -10,6 +11,7 @@ import com.parth.onewidget.config.ClockDigitalConfigActivity
 import com.parth.onewidget.config.CombinedConfigActivity
 import com.parth.onewidget.config.ConfigActivity
 import com.parth.onewidget.config.CountdownConfigActivity
+import com.parth.onewidget.prefs.AppTheme
 import com.parth.onewidget.providers.CalendarProvider
 import com.parth.onewidget.providers.ClockAnalogProvider
 import com.parth.onewidget.providers.ClockDigitalProvider
@@ -42,6 +44,17 @@ class MainActivity : ConfigActivity() {
             textSize = 15f
             setPadding(0, dp(14), 0, dp(14))
         })
+
+        addNavRow("App theme", AppTheme.NAMES[AppTheme.mode(this)]) {
+            AlertDialog.Builder(this)
+                .setTitle("App theme")
+                .setSingleChoiceItems(AppTheme.NAMES.toTypedArray(), AppTheme.mode(this)) { dialog, which ->
+                    AppTheme.setMode(this, which)
+                    dialog.dismiss()
+                    recreate()
+                }
+                .show()
+        }
 
         addSectionTitle("Your widgets")
         val manager = AppWidgetManager.getInstance(this)

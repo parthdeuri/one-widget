@@ -13,7 +13,7 @@ Customizable Android home-screen widgets, written in Kotlin with no third-party 
 
 The calendar can show a dot under days that have events (asks for the Calendar permission).
 
-The app itself has a sakura look: a pink blossom header, rounded cards, and rose-coloured controls on every screen.
+The app itself has two looks you pick on its home screen under **App theme**, applied instantly: **Normal** (a plain grey and blue look, the default) and **Sakura** (a pink blossom header, rounded cards and rose controls). The choice only changes the app's own screens; your widgets are not affected.
 
 ## Customization
 

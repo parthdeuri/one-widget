@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.pm.ResolveInfo
 import android.graphics.drawable.ColorDrawable
 import com.parth.onewidget.R
+import com.parth.onewidget.prefs.AppTheme
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
@@ -22,6 +23,7 @@ class AppPickerActivity : Activity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AppTheme.applyTo(this)
         super.onCreate(savedInstanceState)
         title = "Choose app"
 
@@ -62,8 +64,8 @@ class AppPickerActivity : Activity() {
 
         setContentView(ListView(this).apply {
             this.adapter = adapter
-            setBackgroundColor(getColor(R.color.sakura_bg))
-            divider = ColorDrawable(getColor(R.color.sakura_line))
+            setBackgroundColor(AppTheme.color(this@AppPickerActivity, R.attr.owBg))
+            divider = ColorDrawable(AppTheme.color(this@AppPickerActivity, R.attr.owLine))
             dividerHeight = 1
             setOnItemClickListener { _, _, position, _ ->
                 val pkg = apps.getOrNull(position - 1)?.activityInfo?.packageName ?: ""

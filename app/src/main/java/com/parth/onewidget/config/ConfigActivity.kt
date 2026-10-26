@@ -25,6 +25,7 @@ import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
 import com.parth.onewidget.R
+import com.parth.onewidget.prefs.AppTheme
 import com.parth.onewidget.prefs.WidgetPrefs
 import com.parth.onewidget.render.BackgroundRenderer
 import com.parth.onewidget.render.Bg
@@ -49,7 +50,10 @@ open class ConfigActivity : Activity() {
     protected open val screenSubtitle: String get() = "Make it yours: colours, background and tap action"
     protected open val showLogo: Boolean get() = false
 
+    protected fun themeColor(attr: Int) = AppTheme.color(this, attr)
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        AppTheme.applyTo(this)
         super.onCreate(savedInstanceState)
         content = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
@@ -66,10 +70,12 @@ open class ConfigActivity : Activity() {
     /** Pink gradient header with blossoms, the screen title and, on the home screen, the logo. */
     private fun banner(): View {
         val frame = FrameLayout(this).apply { background = getDrawable(R.drawable.header_gradient) }
-        frame.addView(
-            ImageView(this).apply { setImageResource(R.drawable.deco_sakura) },
-            FrameLayout.LayoutParams(dp(220), dp(110), Gravity.END or Gravity.TOP)
-        )
+        if (AppTheme.blossoms(this)) {
+            frame.addView(
+                ImageView(this).apply { setImageResource(R.drawable.deco_sakura) },
+                FrameLayout.LayoutParams(dp(220), dp(110), Gravity.END or Gravity.TOP)
+            )
+        }
         val row = LinearLayout(this).apply {
             orientation = LinearLayout.HORIZONTAL
             gravity = Gravity.CENTER_VERTICAL
@@ -91,12 +97,12 @@ open class ConfigActivity : Activity() {
             text = screenTitle
             textSize = 26f
             setTypeface(typeface, Typeface.BOLD)
-            setTextColor(getColor(R.color.sakura_deep))
+            setTextColor(themeColor(R.attr.owDeep))
         })
         texts.addView(TextView(this).apply {
             text = screenSubtitle
             textSize = 14f
-            setTextColor(getColor(R.color.sakura_subtext))
+            setTextColor(themeColor(R.attr.owSubtext))
         })
         row.addView(texts)
         frame.addView(row)
@@ -117,7 +123,7 @@ open class ConfigActivity : Activity() {
             this.text = text
             textSize = 18f
             setTypeface(typeface, Typeface.BOLD)
-            setTextColor(getColor(R.color.sakura_deep))
+            setTextColor(themeColor(R.attr.owDeep))
             setPadding(dp(4), dp(16), 0, dp(8))
         })
     }
@@ -125,21 +131,21 @@ open class ConfigActivity : Activity() {
     private fun swatchBackground(color: Int) = GradientDrawable().apply {
         setColor(color)
         cornerRadius = dp(10).toFloat()
-        setStroke(dp(1), getColor(R.color.sakura_line))
+        setStroke(dp(1), themeColor(R.attr.owLine))
     }
 
     /** A tappable row with a title, optional subtitle and a chevron; used for lists of destinations. */
     protected fun addNavRow(title: String, subtitle: String, onClick: () -> Unit) {
         val sub = TextView(this).apply {
             textSize = 13f
-            setTextColor(getColor(R.color.sakura_subtext))
+            setTextColor(themeColor(R.attr.owSubtext))
             text = subtitle
         }
         val chevron = TextView(this).apply {
             text = "›"
             textSize = 26f
             gravity = Gravity.CENTER
-            setTextColor(getColor(R.color.sakura_primary))
+            setTextColor(themeColor(R.attr.owPrimary))
         }
         val row = row(title, sub, chevron)
         row.setOnClickListener { onClick() }
@@ -174,7 +180,7 @@ open class ConfigActivity : Activity() {
                 text = preset.name
                 isAllCaps = false
                 background = getDrawable(R.drawable.btn_soft)
-                setTextColor(getColor(R.color.sakura_deep))
+                setTextColor(themeColor(R.attr.owDeep))
                 layoutParams = LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT, dp(44)
                 ).apply { rightMargin = dp(8) }
@@ -280,7 +286,7 @@ open class ConfigActivity : Activity() {
 
     protected fun addChoiceRow(label: String, key: String, options: List<String>, default: Int) {
         val subtitle = TextView(this).apply {
-            textSize = 13f; setTextColor(getColor(R.color.sakura_subtext))
+            textSize = 13f; setTextColor(themeColor(R.attr.owSubtext))
             text = options.getOrElse(WidgetPrefs.getInt(this@ConfigActivity, widgetId, key, default)) { options[0] }
         }
         val row = row(label, subtitle, null)
@@ -297,7 +303,7 @@ open class ConfigActivity : Activity() {
     }
 
     private fun addImageRow() {
-        val subtitle = TextView(this).apply { textSize = 13f; setTextColor(getColor(R.color.sakura_subtext)) }
+        val subtitle = TextView(this).apply { textSize = 13f; setTextColor(themeColor(R.attr.owSubtext)) }
         imageSubtitle = subtitle
         showImageState(subtitle)
         val row = row("Background image", subtitle, null)
@@ -367,7 +373,7 @@ open class ConfigActivity : Activity() {
 
     protected fun addTextRow(label: String, key: String, default: String) {
         val subtitle = TextView(this).apply {
-            textSize = 13f; setTextColor(getColor(R.color.sakura_subtext))
+            textSize = 13f; setTextColor(themeColor(R.attr.owSubtext))
             text = WidgetPrefs.getString(this@ConfigActivity, widgetId, key) ?: default
         }
         val row = row(label, subtitle, null)
@@ -394,7 +400,7 @@ open class ConfigActivity : Activity() {
     /** Stores the picked date as "yyyy-MM-dd". */
     protected fun addDateRow(label: String, key: String) {
         val subtitle = TextView(this).apply {
-            textSize = 13f; setTextColor(getColor(R.color.sakura_subtext))
+            textSize = 13f; setTextColor(themeColor(R.attr.owSubtext))
             text = WidgetPrefs.getString(this@ConfigActivity, widgetId, key) ?: "Not set"
         }
         val row = row(label, subtitle, null)
@@ -416,7 +422,7 @@ open class ConfigActivity : Activity() {
     }
 
     protected fun addAppRow(label: String, key: String = WidgetPrefs.KEY_TAP_PACKAGE) {
-        val subtitle = TextView(this).apply { textSize = 13f; setTextColor(getColor(R.color.sakura_subtext)) }
+        val subtitle = TextView(this).apply { textSize = 13f; setTextColor(themeColor(R.attr.owSubtext)) }
         appSubtitles[key] = subtitle
         showTapApp(subtitle, key)
         val row = row(label, subtitle, null)

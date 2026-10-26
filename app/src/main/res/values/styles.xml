@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Base theme and the manifest default: the sakura look. -->
     <style name="Theme.OneWidget" parent="@android:style/Theme.Material.Light.NoActionBar">
         <item name="android:colorPrimary">@color/sakura_primary</item>
         <item name="android:colorPrimaryDark">@color/sakura_bg</item>
@@ -11,5 +12,44 @@
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:textColorPrimary">@color/sakura_text</item>
         <item name="android:textColorSecondary">@color/sakura_subtext</item>
+
+        <item name="owBg">@color/sakura_bg</item>
+        <item name="owCard">@color/sakura_card</item>
+        <item name="owLine">@color/sakura_line</item>
+        <item name="owSoft">@color/sakura_soft</item>
+        <item name="owPrimary">@color/sakura_primary</item>
+        <item name="owDeep">@color/sakura_deep</item>
+        <item name="owText">@color/sakura_text</item>
+        <item name="owSubtext">@color/sakura_subtext</item>
+        <item name="owHeaderStart">@color/sakura_line</item>
+        <item name="owHeaderEnd">@color/sakura_bg</item>
+        <item name="owBlossoms">true</item>
+    </style>
+
+    <style name="Theme.OneWidget.Sakura" parent="Theme.OneWidget" />
+
+    <!-- Plain neutral look: no blossoms, flat header, blue accent. -->
+    <style name="Theme.OneWidget.Normal" parent="Theme.OneWidget">
+        <item name="android:colorPrimary">@color/normal_primary</item>
+        <item name="android:colorPrimaryDark">@color/normal_bg</item>
+        <item name="android:colorAccent">@color/normal_primary</item>
+        <item name="android:colorControlActivated">@color/normal_primary</item>
+        <item name="android:windowBackground">@color/normal_bg</item>
+        <item name="android:statusBarColor">@color/normal_bg</item>
+        <item name="android:navigationBarColor">@color/normal_bg</item>
+        <item name="android:textColorPrimary">@color/normal_text</item>
+        <item name="android:textColorSecondary">@color/normal_subtext</item>
+
+        <item name="owBg">@color/normal_bg</item>
+        <item name="owCard">@color/normal_card</item>
+        <item name="owLine">@color/normal_line</item>
+        <item name="owSoft">@color/normal_soft</item>
+        <item name="owPrimary">@color/normal_primary</item>
+        <item name="owDeep">@color/normal_deep</item>
+        <item name="owText">@color/normal_text</item>
+        <item name="owSubtext">@color/normal_subtext</item>
+        <item name="owHeaderStart">@color/normal_header</item>
+        <item name="owHeaderEnd">@color/normal_header</item>
+        <item name="owBlossoms">false</item>
     </style>
 </resources>

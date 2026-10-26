@@ -8,4 +8,14 @@
     <color name="sakura_deep">#FF880E4F</color>
     <color name="sakura_text">#FF4A2B38</color>
     <color name="sakura_subtext">#FF8E6B7A</color>
+
+    <color name="normal_bg">#FFF2F3F5</color>
+    <color name="normal_card">#FFFFFFFF</color>
+    <color name="normal_line">#FFD9DCE1</color>
+    <color name="normal_soft">#FFE8EAEE</color>
+    <color name="normal_primary">#FF3F6FD8</color>
+    <color name="normal_deep">#FF1F2A44</color>
+    <color name="normal_text">#FF1F2328</color>
+    <color name="normal_subtext">#FF6B7280</color>
+    <color name="normal_header">#FFE3E6EB</color>
 </resources>

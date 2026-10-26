@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Colours for the app's own screens; each app theme sets them. Widgets never read these. -->
+<resources>
+    <attr name="owBg" format="color" />
+    <attr name="owCard" format="color" />
+    <attr name="owLine" format="color" />
+    <attr name="owSoft" format="color" />
+    <attr name="owPrimary" format="color" />
+    <attr name="owDeep" format="color" />
+    <attr name="owText" format="color" />
+    <attr name="owSubtext" format="color" />
+    <attr name="owHeaderStart" format="color" />
+    <attr name="owHeaderEnd" format="color" />
+    <attr name="owBlossoms" format="boolean" />
+</resources>

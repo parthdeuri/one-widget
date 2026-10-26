@@ -14,6 +14,8 @@ import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.SeekBar
 import android.widget.TextView
+import com.parth.onewidget.R
+import com.parth.onewidget.prefs.AppTheme
 
 /** HSV + alpha sliders with a live swatch and an editable #AARRGGBB field. */
 object ColorPickerDialog {
@@ -41,7 +43,7 @@ object ColorPickerDialog {
             swatch.background = GradientDrawable().apply {
                 setColor(current())
                 cornerRadius = dp(12).toFloat()
-                setStroke(dp(1), 0xFFF8BBD0.toInt())
+                setStroke(dp(1), AppTheme.color(context, R.attr.owLine))
             }
             if (fromHex) syncs.forEach { it() } else hex.setText(String.format("#%08X", current()))
             updating = false
