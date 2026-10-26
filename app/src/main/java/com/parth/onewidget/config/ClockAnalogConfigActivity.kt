@@ -39,6 +39,8 @@ class ClockAnalogConfigActivity : ConfigActivity() {
         addColorRow("Hour hand colour", P.KEY_HOUR, P.DEFAULT_HOUR)
         addColorRow("Minute hand colour", P.KEY_MINUTE, P.DEFAULT_MINUTE)
         addSwitchRow("Show numbers", P.KEY_NUMBERS, false)
+        addSliderRow("Number size", P.KEY_NUMBER_SCALE, 60, 160, 100, "%")
+        addSliderRow("Hand thickness", P.KEY_HAND_SCALE, 60, 200, 100, "%")
         addBackgroundSection(P.DEFAULT_BG)
         addAppRow("When tapped, open")
 

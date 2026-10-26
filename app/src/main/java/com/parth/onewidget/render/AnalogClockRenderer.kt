@@ -11,7 +11,10 @@ object AnalogClockRenderer {
 
     class Colors(val face: Int, val ticks: Int, val hourHand: Int, val minuteHand: Int)
 
-    fun render(size: Int, colors: Colors, showNumbers: Boolean, hour: Int, minute: Int): Bitmap {
+    fun render(
+        size: Int, colors: Colors, showNumbers: Boolean, hour: Int, minute: Int,
+        numberScale: Float = 1f, handScale: Float = 1f,
+    ): Bitmap {
         val bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
         val c = size / 2f
@@ -43,7 +46,7 @@ object AnalogClockRenderer {
             paint.style = Paint.Style.FILL
             paint.color = colors.ticks
             paint.textAlign = Paint.Align.CENTER
-            paint.textSize = size * 0.09f
+            paint.textSize = size * 0.09f * numberScale
             val centreOffset = -(paint.fontMetrics.ascent + paint.fontMetrics.descent) / 2
             for (n in 1..12) {
                 val angle = Math.toRadians(n * 30.0)
@@ -55,8 +58,8 @@ object AnalogClockRenderer {
 
         val hourAngle = ((hour % 12) + minute / 60f) * 30f
         val minuteAngle = minute * 6f
-        hand(canvas, paint, c, hourAngle, r * 0.5f, size * 0.03f, colors.hourHand)
-        hand(canvas, paint, c, minuteAngle, r * 0.75f, size * 0.02f, colors.minuteHand)
+        hand(canvas, paint, c, hourAngle, r * 0.5f, size * 0.03f * handScale, colors.hourHand)
+        hand(canvas, paint, c, minuteAngle, r * 0.75f, size * 0.02f * handScale, colors.minuteHand)
 
         paint.style = Paint.Style.FILL
         paint.color = colors.minuteHand

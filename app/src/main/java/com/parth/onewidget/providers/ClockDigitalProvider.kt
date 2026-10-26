@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.text.format.DateFormat
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.View
 import com.parth.onewidget.render.BackgroundRenderer
 import android.widget.RemoteViews
@@ -27,6 +28,10 @@ class ClockDigitalProvider : AppWidgetProvider() {
         const val KEY_SECONDS = "seconds"
         const val KEY_SHOW_DATE = "show_date"
         const val KEY_SHOW_ALARM = "show_alarm"
+        const val KEY_AUTO_FIT = "time_auto_fit"
+        const val KEY_TIME_SIZE = "time_size"
+        const val KEY_DATE_SIZE = "date_size"
+        const val KEY_ALARM_SIZE = "alarm_size"
 
         const val DEFAULT_BG = 0xCC000000.toInt()
         const val DEFAULT_TIME = 0xFFFFFFFF.toInt()
@@ -44,9 +49,19 @@ class ClockDigitalProvider : AppWidgetProvider() {
             views.setImageViewBitmap(R.id.bg, BackgroundRenderer.renderFor(context, id, DEFAULT_BG))
 
             // Set both formats so the choice overrides the system 12/24h setting.
-            views.setCharSequence(R.id.time, "setFormat12Hour", timeFormat)
-            views.setCharSequence(R.id.time, "setFormat24Hour", timeFormat)
-            views.setTextColor(R.id.time, p(KEY_TIME, DEFAULT_TIME))
+            val autoFit = flag(KEY_AUTO_FIT, true)
+            views.setViewVisibility(R.id.time, if (autoFit) View.VISIBLE else View.GONE)
+            views.setViewVisibility(R.id.time_fixed, if (autoFit) View.GONE else View.VISIBLE)
+            views.setTextViewTextSize(
+                R.id.time_fixed, TypedValue.COMPLEX_UNIT_SP, p(KEY_TIME_SIZE, 48).toFloat()
+            )
+            listOf(R.id.time, R.id.time_fixed).forEach {
+                views.setCharSequence(it, "setFormat12Hour", timeFormat)
+                views.setCharSequence(it, "setFormat24Hour", timeFormat)
+                views.setTextColor(it, p(KEY_TIME, DEFAULT_TIME))
+            }
+            views.setTextViewTextSize(R.id.date, TypedValue.COMPLEX_UNIT_SP, p(KEY_DATE_SIZE, 14).toFloat())
+            views.setTextViewTextSize(R.id.alarm, TypedValue.COMPLEX_UNIT_SP, p(KEY_ALARM_SIZE, 12).toFloat())
 
             views.setViewVisibility(R.id.date, if (flag(KEY_SHOW_DATE, true)) View.VISIBLE else View.GONE)
             views.setCharSequence(R.id.date, "setFormat12Hour", "EEE, d MMM")

@@ -29,6 +29,8 @@ class ClockAnalogProvider : AppWidgetProvider() {
         const val KEY_NUMBERS = "numbers"
         const val KEY_BG = "bg"
         const val KEY_FACE_OPACITY = "face_opacity"
+        const val KEY_NUMBER_SCALE = "number_scale"
+        const val KEY_HAND_SCALE = "hand_scale"
 
         /** Transparent by default, so the clock face floats on the wallpaper as before. */
         const val DEFAULT_BG = 0x00000000
@@ -55,7 +57,9 @@ class ClockAnalogProvider : AppWidgetProvider() {
             val bitmap = AnalogClockRenderer.render(
                 BITMAP_SIZE, colors,
                 WidgetPrefs.getBool(context, id, KEY_NUMBERS, false),
-                now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE)
+                now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE),
+                numberScale = WidgetPrefs.getInt(context, id, KEY_NUMBER_SCALE, 100) / 100f,
+                handScale = WidgetPrefs.getInt(context, id, KEY_HAND_SCALE, 100) / 100f,
             )
 
             val views = RemoteViews(context.packageName, R.layout.widget_clock_analog)

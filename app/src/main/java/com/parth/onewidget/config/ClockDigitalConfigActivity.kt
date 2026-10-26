@@ -35,6 +35,10 @@ class ClockDigitalConfigActivity : ConfigActivity() {
         addSwitchRow("Show seconds", P.KEY_SECONDS, false)
         addSwitchRow("Show date", P.KEY_SHOW_DATE, true)
         addSwitchRow("Show next alarm", P.KEY_SHOW_ALARM, true)
+        addSwitchRow("Auto-fit time size to widget", P.KEY_AUTO_FIT, true)
+        addSliderRow("Time size (when auto-fit is off)", P.KEY_TIME_SIZE, 16, 120, 48, "sp")
+        addSliderRow("Date size", P.KEY_DATE_SIZE, 8, 40, 14, "sp")
+        addSliderRow("Alarm size", P.KEY_ALARM_SIZE, 8, 30, 12, "sp")
         addBackgroundSection(P.DEFAULT_BG)
         addAppRow("When tapped, open")
         addButton("Save") {

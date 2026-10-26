@@ -29,6 +29,18 @@
             android:maxLines="1"
             android:textColor="#FFFFFFFF" />
 
+        <!-- Used instead of @id/time when auto-fit is off; autosize cannot be switched off remotely. -->
+        <TextClock
+            android:id="@+id/time_fixed"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:maxLines="1"
+            android:textColor="#FFFFFFFF"
+            android:textSize="48sp"
+            android:visibility="gone" />
+
         <TextClock
             android:id="@+id/date"
             android:layout_width="wrap_content"

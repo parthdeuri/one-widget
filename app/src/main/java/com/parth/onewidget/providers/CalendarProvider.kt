@@ -8,6 +8,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.TypedValue
 import android.widget.RemoteViews
 import com.parth.onewidget.render.BackgroundRenderer
 import com.parth.onewidget.R
@@ -30,6 +31,8 @@ class CalendarProvider : AppWidgetProvider() {
         const val KEY_TODAY_CIRCLE = "today_circle"
         const val KEY_TODAY_TEXT = "today_text"
         const val KEY_MONDAY_FIRST = "monday_first"
+        const val KEY_TITLE_SIZE = "title_size"
+        const val KEY_NUMBER_SCALE = "number_scale"
         private const val KEY_OFFSET = "month_offset"
 
         const val DEFAULT_BG = 0xCC000000.toInt()
@@ -68,7 +71,8 @@ class CalendarProvider : AppWidgetProvider() {
                     weekend = color(KEY_WEEKEND, DEFAULT_WEEKEND),
                     todayCircle = color(KEY_TODAY_CIRCLE, DEFAULT_TODAY_CIRCLE),
                     todayText = color(KEY_TODAY_TEXT, DEFAULT_TODAY_TEXT),
-                )
+                ),
+                textScale = WidgetPrefs.getInt(context, id, KEY_NUMBER_SCALE, 100) / 100f,
             )
 
             val header = color(KEY_HEADER, DEFAULT_HEADER)
@@ -77,6 +81,9 @@ class CalendarProvider : AppWidgetProvider() {
             views.setImageViewBitmap(R.id.grid, grid)
             views.setTextViewText(R.id.title, SimpleDateFormat("MMMM yyyy", Locale.getDefault()).format(shown.time))
             listOf(R.id.title, R.id.prev, R.id.next).forEach { views.setTextColor(it, header) }
+            views.setTextViewTextSize(
+                R.id.title, TypedValue.COMPLEX_UNIT_SP, WidgetPrefs.getInt(context, id, KEY_TITLE_SIZE, 16).toFloat()
+            )
 
             views.setOnClickPendingIntent(R.id.prev, action(context, id, ACTION_PREV, 1))
             views.setOnClickPendingIntent(R.id.next, action(context, id, ACTION_NEXT, 2))

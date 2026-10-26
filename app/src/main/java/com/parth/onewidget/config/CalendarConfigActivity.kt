@@ -40,6 +40,8 @@ class CalendarConfigActivity : ConfigActivity() {
         addColorRow("Today highlight", P.KEY_TODAY_CIRCLE, P.DEFAULT_TODAY_CIRCLE)
         addColorRow("Today number", P.KEY_TODAY_TEXT, P.DEFAULT_TODAY_TEXT)
         addSwitchRow("Week starts on Monday", P.KEY_MONDAY_FIRST, false)
+        addSliderRow("Month title size", P.KEY_TITLE_SIZE, 10, 28, 16, "sp")
+        addSliderRow("Day number size", P.KEY_NUMBER_SCALE, 60, 160, 100, "%")
         addBackgroundSection(P.DEFAULT_BG)
         addAppRow("When tapped, open")
         addButton("Save") {

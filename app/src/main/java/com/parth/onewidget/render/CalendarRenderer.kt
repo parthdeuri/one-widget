@@ -21,13 +21,16 @@ object CalendarRenderer {
      * @param firstOfMonth any Calendar set to the first day of the month to draw
      * @param today day of month to highlight, or 0 when the shown month is not the current one
      */
-    fun render(size: Int, firstOfMonth: Calendar, today: Int, mondayFirst: Boolean, colors: Colors): Bitmap {
+    fun render(
+        size: Int, firstOfMonth: Calendar, today: Int, mondayFirst: Boolean, colors: Colors,
+        textScale: Float = 1f,
+    ): Bitmap {
         val bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
         val cell = size / 7f
         val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
             textAlign = Paint.Align.CENTER
-            textSize = cell * 0.4f
+            textSize = cell * 0.4f * textScale
         }
         val baseline = -(paint.fontMetrics.ascent + paint.fontMetrics.descent) / 2
         val startDay = if (mondayFirst) 1 else 0 // 0 = Sunday
