@@ -2,5 +2,6 @@
 <resources>
     <string name="app_name">Widgets</string>
     <string name="widget_clock_digital_desc">Digital clock with date and next alarm</string>
+    <string name="widget_clock_analog_desc">Analog clock with customizable colours</string>
     <string name="home_hint">Long-press your home screen and add a widget from Widgets.</string>
 </resources>
