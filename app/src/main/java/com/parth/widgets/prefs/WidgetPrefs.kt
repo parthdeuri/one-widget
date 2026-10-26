@@ -14,6 +14,10 @@ object WidgetPrefs {
         sp(c).edit().putInt("${id}_$key", value).apply()
     }
 
+    fun getInt(c: Context, id: Int, key: String, def: Int): Int = getColor(c, id, key, def)
+
+    fun setInt(c: Context, id: Int, key: String, value: Int) = setColor(c, id, key, value)
+
     fun getString(c: Context, id: Int, key: String): String? = sp(c).getString("${id}_$key", null)
 
     fun setString(c: Context, id: Int, key: String, value: String?) {
