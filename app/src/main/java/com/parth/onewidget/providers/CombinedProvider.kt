@@ -18,6 +18,7 @@ import com.parth.onewidget.prefs.TapAction
 import com.parth.onewidget.prefs.WidgetPrefs
 import com.parth.onewidget.render.BackgroundRenderer
 import com.parth.onewidget.render.CalendarRenderer
+import com.parth.onewidget.render.TimeFit
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -40,6 +41,10 @@ class CombinedProvider : AppWidgetProvider() {
         const val CLK_SHOW_ALARM = "clk_show_alarm"
         const val CLK_DATE_SIZE = "clk_date_size"
         const val CLK_ALARM_SIZE = "clk_alarm_size"
+        const val CLK_DATE_POSITION = "clk_date_position"
+        const val CLK_DATE_FORMAT = "clk_date_format"
+        const val CLK_AUTO_FIT = "clk_auto_fit"
+        const val CLK_TIME_SIZE = "clk_time_size"
 
         const val CAL_HEADER = "cal_header"
         const val CAL_WEEKDAY = "cal_weekday"
@@ -87,15 +92,41 @@ class CombinedProvider : AppWidgetProvider() {
             val size = { key: String, def: Int -> WidgetPrefs.getInt(context, id, key, def).toFloat() }
 
             val format = (if (flag(CLK_24H, false)) "HH:mm" else "h:mm") + if (flag(CLK_SECONDS, false)) ":ss" else ""
-            views.setCharSequence(R.id.time, "setFormat12Hour", format)
-            views.setCharSequence(R.id.time, "setFormat24Hour", format)
-            views.setTextColor(R.id.time, color(CLK_TIME, ClockDigitalProvider.DEFAULT_TIME))
+            // Fit the time to this widget's clock half; the other id (@id/time) is unused and hidden.
+            val stacked = flag(KEY_STACKED, false)
+            val (widgetW, widgetH) = BackgroundRenderer.widgetSizeDp(context, id)
+            val nextAlarmShown = flag(CLK_SHOW_ALARM, true) &&
+                (context.getSystemService(Context.ALARM_SERVICE) as AlarmManager).nextAlarmClock != null
+            val extraLines = (if (flag(CLK_SHOW_DATE, true)) size(CLK_DATE_SIZE, 13) else 0f) +
+                (if (nextAlarmShown) size(CLK_ALARM_SIZE, 12) else 0f)
+            val timeSize = if (!flag(CLK_AUTO_FIT, true)) size(CLK_TIME_SIZE, 40) else TimeFit.timeSizeSp(
+                context,
+                if (stacked) widgetW else widgetW / 2,
+                if (stacked) widgetH / 2 else widgetH,
+                flag(CLK_SECONDS, false),
+                extraLines,
+            )
+            views.setViewVisibility(R.id.time, View.GONE)
+            views.setViewVisibility(R.id.time_fixed, View.VISIBLE)
+            views.setTextViewTextSize(R.id.time_fixed, TypedValue.COMPLEX_UNIT_SP, timeSize)
+            listOf(R.id.time, R.id.time_fixed).forEach {
+                views.setCharSequence(it, "setFormat12Hour", format)
+                views.setCharSequence(it, "setFormat24Hour", format)
+                views.setTextColor(it, color(CLK_TIME, ClockDigitalProvider.DEFAULT_TIME))
+            }
 
-            views.setViewVisibility(R.id.date, if (flag(CLK_SHOW_DATE, true)) View.VISIBLE else View.GONE)
-            views.setCharSequence(R.id.date, "setFormat12Hour", "EEE, d MMM")
-            views.setCharSequence(R.id.date, "setFormat24Hour", "EEE, d MMM")
-            views.setTextColor(R.id.date, color(CLK_DATE, ClockDigitalProvider.DEFAULT_DATE))
-            views.setTextViewTextSize(R.id.date, TypedValue.COMPLEX_UNIT_SP, size(CLK_DATE_SIZE, 13))
+            val showDate = flag(CLK_SHOW_DATE, true)
+            val dateAbove = WidgetPrefs.getInt(context, id, CLK_DATE_POSITION, 0) == 1
+            val dateFormats = ClockDigitalProvider.DATE_FORMATS
+            val dateFormat = dateFormats[WidgetPrefs.getInt(context, id, CLK_DATE_FORMAT, 0).coerceIn(0, dateFormats.lastIndex)]
+            views.setViewVisibility(R.id.date, if (showDate && !dateAbove) View.VISIBLE else View.GONE)
+            views.setViewVisibility(R.id.date_top, if (showDate && dateAbove) View.VISIBLE else View.GONE)
+            listOf(R.id.date, R.id.date_top).forEach {
+                views.setCharSequence(it, "setFormat12Hour", dateFormat)
+                views.setCharSequence(it, "setFormat24Hour", dateFormat)
+                views.setTextColor(it, color(CLK_DATE, ClockDigitalProvider.DEFAULT_DATE))
+                views.setTextViewTextSize(it, TypedValue.COMPLEX_UNIT_SP, size(CLK_DATE_SIZE, 13))
+            }
 
             val nextAlarm = if (flag(CLK_SHOW_ALARM, true)) {
                 (context.getSystemService(Context.ALARM_SERVICE) as AlarmManager).nextAlarmClock?.triggerTime

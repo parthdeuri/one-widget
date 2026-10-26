@@ -51,8 +51,8 @@ object BackgroundRenderer {
 
     fun imageFile(context: Context, id: Int) = File(context.filesDir, "bg_$id.jpg")
 
-    /** Renders at the widget's current size so patterns and images are not stretched. */
-    fun renderFor(context: Context, id: Int, defaultColor: Int): Bitmap {
+    /** The widget's current size in dp, for the orientation the phone is in (250 x 250 if unknown). */
+    fun widgetSizeDp(context: Context, id: Int): Pair<Float, Float> {
         val options = AppWidgetManager.getInstance(context).getAppWidgetOptions(id)
         val landscape = context.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
         val wDp = options.getInt(
@@ -61,7 +61,12 @@ object BackgroundRenderer {
         val hDp = options.getInt(
             if (landscape) AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT else AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT, 0
         ).takeIf { it > 0 } ?: 250
+        return wDp.toFloat() to hDp.toFloat()
+    }
 
+    /** Renders at the widget's current size so patterns and images are not stretched. */
+    fun renderFor(context: Context, id: Int, defaultColor: Int): Bitmap {
+        val (wDp, hDp) = widgetSizeDp(context, id)
         var unit = context.resources.displayMetrics.density
         var w = wDp * unit
         var h = hDp * unit

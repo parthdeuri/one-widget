@@ -40,6 +40,10 @@ class CombinedConfigActivity : ConfigActivity() {
         addSwitchRow("Show seconds", P.CLK_SECONDS, false)
         addSwitchRow("Show date", P.CLK_SHOW_DATE, true)
         addSwitchRow("Show next alarm", P.CLK_SHOW_ALARM, true)
+        addChoiceRow("Date position", P.CLK_DATE_POSITION, ClockDigitalProvider.DATE_POSITIONS, 0)
+        addChoiceRow("Date format", P.CLK_DATE_FORMAT, ClockDigitalProvider.DATE_FORMAT_LABELS, 0)
+        addSwitchRow("Auto-fit time size to widget", P.CLK_AUTO_FIT, true)
+        addSliderRow("Time size (when auto-fit is off)", P.CLK_TIME_SIZE, 16, 120, 40, "sp")
         addSliderRow("Date size", P.CLK_DATE_SIZE, 8, 40, 13, "sp")
         addSliderRow("Alarm size", P.CLK_ALARM_SIZE, 8, 30, 12, "sp")
 

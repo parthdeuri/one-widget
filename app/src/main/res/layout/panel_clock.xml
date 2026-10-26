@@ -12,6 +12,15 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
+    <!-- Shown instead of @id/date when the date position is "above the time". -->
+    <TextClock
+        android:id="@+id/date_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FFCCCCCC"
+        android:textSize="13sp"
+        android:visibility="gone" />
+
     <TextClock
         android:id="@+id/time"
         android:layout_width="match_parent"
@@ -23,6 +32,16 @@
         android:gravity="center_horizontal|bottom"
         android:maxLines="1"
         android:textColor="#FFFFFFFF" />
+
+    <!-- The size is computed in code, so the time sits right above the date and the block stays centred. -->
+    <TextClock
+        android:id="@+id/time_fixed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:maxLines="1"
+        android:textColor="#FFFFFFFF"
+        android:textSize="40sp" />
 
     <TextClock
         android:id="@+id/date"

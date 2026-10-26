@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
 import com.parth.onewidget.render.BackgroundRenderer
+import com.parth.onewidget.render.TimeFit
 import android.widget.RemoteViews
 import com.parth.onewidget.R
 import com.parth.onewidget.config.ClockDigitalConfigActivity
@@ -59,12 +60,22 @@ class ClockDigitalProvider : AppWidgetProvider() {
             views.setImageViewBitmap(R.id.bg, BackgroundRenderer.renderFor(context, id, DEFAULT_BG))
 
             // Set both formats so the choice overrides the system 12/24h setting.
-            val autoFit = flag(KEY_AUTO_FIT, true)
-            views.setViewVisibility(R.id.time, if (autoFit) View.VISIBLE else View.GONE)
-            views.setViewVisibility(R.id.time_fixed, if (autoFit) View.GONE else View.VISIBLE)
-            views.setTextViewTextSize(
-                R.id.time_fixed, TypedValue.COMPLEX_UNIT_SP, p(KEY_TIME_SIZE, 48).toFloat()
-            )
+            // The time always uses the wrap-content box (@id/time_fixed) so the date sits right
+            // against it and the block stays centred; auto-fit computes the size from the widget size.
+            val showDate = flag(KEY_SHOW_DATE, true)
+            val alarmShown = flag(KEY_SHOW_ALARM, true) &&
+                (context.getSystemService(Context.ALARM_SERVICE) as AlarmManager).nextAlarmClock != null
+            val timeSize = if (flag(KEY_AUTO_FIT, true)) {
+                val (widthDp, heightDp) = BackgroundRenderer.widgetSizeDp(context, id)
+                val extraLines = (if (showDate) p(KEY_DATE_SIZE, 14) else 0) +
+                    (if (alarmShown) p(KEY_ALARM_SIZE, 12) else 0)
+                TimeFit.timeSizeSp(context, widthDp, heightDp, flag(KEY_SECONDS, false), extraLines.toFloat())
+            } else {
+                p(KEY_TIME_SIZE, 48).toFloat()
+            }
+            views.setViewVisibility(R.id.time, View.GONE)
+            views.setViewVisibility(R.id.time_fixed, View.VISIBLE)
+            views.setTextViewTextSize(R.id.time_fixed, TypedValue.COMPLEX_UNIT_SP, timeSize)
             listOf(R.id.time, R.id.time_fixed).forEach {
                 views.setCharSequence(it, "setFormat12Hour", timeFormat)
                 views.setCharSequence(it, "setFormat24Hour", timeFormat)
