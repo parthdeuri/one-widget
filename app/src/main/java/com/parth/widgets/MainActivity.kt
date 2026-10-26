@@ -1,16 +1,22 @@
 package com.parth.widgets
 
-import android.app.Activity
+import android.graphics.Color
 import android.os.Bundle
 import android.widget.TextView
+import com.parth.widgets.config.ConfigActivity
 
-class MainActivity : Activity() {
+/** Temporary demo of the shared settings rows, using widget id 0. Replaced by a widget list later. */
+class MainActivity : ConfigActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(TextView(this).apply {
+        widgetId = 0
+        content.addView(TextView(this).apply {
             text = getString(R.string.home_hint)
-            textSize = 18f
-            setPadding(48, 96, 48, 48)
+            textSize = 16f
+            setPadding(0, 0, 0, dp(16))
         })
+        addColorRow("Background colour", "bg", Color.parseColor("#CC000000"))
+        addColorRow("Text colour", "text", Color.WHITE)
+        addAppRow("When tapped, open")
     }
 }
