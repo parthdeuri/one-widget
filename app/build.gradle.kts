@@ -19,13 +19,21 @@ android {
     // updates. Without it Gradle falls back to a throwaway debug key and each build differs.
     val keystorePath = System.getenv("KEYSTORE_FILE")
     if (!keystorePath.isNullOrEmpty()) {
+        val password = System.getenv("KEYSTORE_PASSWORD") ?: ""
+        // A keystore exported by Windows does not keep the alias it was given, so fall back to
+        // whichever alias the store really contains.
+        val store = java.security.KeyStore.getInstance("pkcs12").apply {
+            file(keystorePath).inputStream().use { load(it, password.toCharArray()) }
+        }
+        val wantedAlias = System.getenv("KEY_ALIAS") ?: ""
+        val realAlias = if (store.containsAlias(wantedAlias)) wantedAlias else store.aliases().toList().first()
         signingConfigs {
             create("shared") {
                 storeFile = file(keystorePath)
                 storeType = "pkcs12"
-                storePassword = System.getenv("KEYSTORE_PASSWORD")
-                keyAlias = System.getenv("KEY_ALIAS")
-                keyPassword = System.getenv("KEY_PASSWORD")
+                storePassword = password
+                keyAlias = realAlias
+                keyPassword = password
             }
         }
     }

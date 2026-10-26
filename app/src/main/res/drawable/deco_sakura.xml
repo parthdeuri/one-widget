@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Three cherry blossoms; each is five petals rotated around the flower centre. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="220dp"
+    android:height="110dp"
+    android:viewportWidth="220"
+    android:viewportHeight="110">
+
+    <!-- Large flower -->
+    <group android:translateX="130" android:translateY="10" android:scaleX="1.5" android:scaleY="1.5">
+        <group android:pivotX="30" android:pivotY="30" android:rotation="0">
+            <path android:fillColor="#99F48FB1" android:pathData="M22,16 a8,14 0 1 0 16,0 a8,14 0 1 0 -16,0 z" />
+        </group>
+        <group android:pivotX="30" android:pivotY="30" android:rotation="72">
+            <path android:fillColor="#99F48FB1" android:pathData="M22,16 a8,14 0 1 0 16,0 a8,14 0 1 0 -16,0 z" />
+        </group>
+        <group android:pivotX="30" android:pivotY="30" android:rotation="144">
+            <path android:fillColor="#99F48FB1" android:pathData="M22,16 a8,14 0 1 0 16,0 a8,14 0 1 0 -16,0 z" />
+        </group>
+        <group android:pivotX="30" android:pivotY="30" android:rotation="216">
+            <path android:fillColor="#99F48FB1" android:pathData="M22,16 a8,14 0 1 0 16,0 a8,14 0 1 0 -16,0 z" />
+        </group>
+        <group android:pivotX="30" android:pivotY="30" android:rotation="288">
+            <path android:fillColor="#99F48FB1" android:pathData="M22,16 a8,14 0 1 0 16,0 a8,14 0 1 0 -16,0 z" />
+        </group>
+        <path android:fillColor="#FFFFD54F" android:pathData="M26.5,30 a3.5,3.5 0 1 0 7,0 a3.5,3.5 0 1 0 -7,0 z" />
+    </group>
+
+    <!-- Medium flower -->
+    <group android:translateX="80" android:translateY="52" android:scaleX="0.9" android:scaleY="0.9">
+        <group android:pivotX="30" android:pivotY="30" android:rotation="20">
+            <path android:fillColor="#80F06292" android:pathData="M22,16 a8,14 0 1 0 16,0 a8,14 0 1 0 -16,0 z" />
+        </group>
+        <group android:pivotX="30" android:pivotY="30" android:rotation="92">
+            <path android:fillColor="#80F06292" android:pathData="M22,16 a8,14 0 1 0 16,0 a8,14 0 1 0 -16,0 z" />
+        </group>
+        <group android:pivotX="30" android:pivotY="30" android:rotation="164">
+            <path android:fillColor="#80F06292" android:pathData="M22,16 a8,14 0 1 0 16,0 a8,14 0 1 0 -16,0 z" />
+        </group>
+        <group android:pivotX="30" android:pivotY="30" android:rotation="236">
+            <path android:fillColor="#80F06292" android:pathData="M22,16 a8,14 0 1 0 16,0 a8,14 0 1 0 -16,0 z" />
+        </group>
+        <group android:pivotX="30" android:pivotY="30" android:rotation="308">
+            <path android:fillColor="#80F06292" android:pathData="M22,16 a8,14 0 1 0 16,0 a8,14 0 1 0 -16,0 z" />
+        </group>
+        <path android:fillColor="#FFFFD54F" android:pathData="M26.5,30 a3.5,3.5 0 1 0 7,0 a3.5,3.5 0 1 0 -7,0 z" />
+    </group>
+
+    <!-- Small flower -->
+    <group android:translateX="178" android:translateY="62" android:scaleX="0.6" android:scaleY="0.6">
+        <group android:pivotX="30" android:pivotY="30" android:rotation="40">
+            <path android:fillColor="#B3F8BBD0" android:pathData="M22,16 a8,14 0 1 0 16,0 a8,14 0 1 0 -16,0 z" />
+        </group>
+        <group android:pivotX="30" android:pivotY="30" android:rotation="112">
+            <path android:fillColor="#B3F8BBD0" android:pathData="M22,16 a8,14 0 1 0 16,0 a8,14 0 1 0 -16,0 z" />
+        </group>
+        <group android:pivotX="30" android:pivotY="30" android:rotation="184">
+            <path android:fillColor="#B3F8BBD0" android:pathData="M22,16 a8,14 0 1 0 16,0 a8,14 0 1 0 -16,0 z" />
+        </group>
+        <group android:pivotX="30" android:pivotY="30" android:rotation="256">
+            <path android:fillColor="#B3F8BBD0" android:pathData="M22,16 a8,14 0 1 0 16,0 a8,14 0 1 0 -16,0 z" />
+        </group>
+        <group android:pivotX="30" android:pivotY="30" android:rotation="328">
+            <path android:fillColor="#B3F8BBD0" android:pathData="M22,16 a8,14 0 1 0 16,0 a8,14 0 1 0 -16,0 z" />
+        </group>
+        <path android:fillColor="#FFFFD54F" android:pathData="M26.5,30 a3.5,3.5 0 1 0 7,0 a3.5,3.5 0 1 0 -7,0 z" />
+    </group>
+</vector>

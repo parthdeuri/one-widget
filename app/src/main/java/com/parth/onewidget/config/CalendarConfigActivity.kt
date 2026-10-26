@@ -9,6 +9,7 @@ import com.parth.onewidget.render.Bg
 import com.parth.onewidget.providers.CalendarProvider as P
 
 class CalendarConfigActivity : ConfigActivity() {
+    override val screenTitle: String get() = "Calendar"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         widgetId = intent.getIntExtra(

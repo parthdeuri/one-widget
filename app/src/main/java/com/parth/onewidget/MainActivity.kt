@@ -3,8 +3,6 @@ package com.parth.onewidget
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Intent
-import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import com.parth.onewidget.config.CalendarConfigActivity
 import com.parth.onewidget.config.ClockAnalogConfigActivity
@@ -18,7 +16,7 @@ import com.parth.onewidget.providers.ClockDigitalProvider
 import com.parth.onewidget.providers.CombinedProvider
 import com.parth.onewidget.providers.CountdownProvider
 
-/** Lists the widgets currently on the home screen, each with a button to reopen its settings. */
+/** Lists the widgets currently on the home screen, each opening its settings. */
 class MainActivity : ConfigActivity() {
 
     private class Kind(val label: String, val provider: Class<*>, val config: Class<*>)
@@ -31,28 +29,27 @@ class MainActivity : ConfigActivity() {
         Kind("Countdown", CountdownProvider::class.java, CountdownConfigActivity::class.java),
     )
 
+    override val screenTitle: String get() = getString(R.string.app_name)
+    override val screenSubtitle: String get() = "Sakura-style widgets, all yours to customise"
+    override val showLogo: Boolean get() = true
+
     override fun onResume() {
         super.onResume()
         content.removeAllViews()
-        content.addView(ImageView(this).apply { setImageResource(R.drawable.ic_logo) },
-            LinearLayout.LayoutParams(dp(96), dp(96)))
-        content.addView(TextView(this).apply {
-            text = getString(R.string.app_name)
-            textSize = 24f
-            setPadding(0, dp(8), 0, dp(8))
-        })
-        content.addView(TextView(this).apply {
+
+        addCard(TextView(this).apply {
             text = getString(R.string.home_hint)
-            textSize = 16f
-            setPadding(0, 0, 0, dp(16))
+            textSize = 15f
+            setPadding(0, dp(14), 0, dp(14))
         })
 
+        addSectionTitle("Your widgets")
         val manager = AppWidgetManager.getInstance(this)
         var found = false
         kinds.forEach { kind ->
             manager.getAppWidgetIds(ComponentName(this, kind.provider)).forEachIndexed { index, id ->
                 found = true
-                addButton("Edit ${kind.label} ${index + 1}") {
+                addNavRow("${kind.label} ${index + 1}", "Tap to customise") {
                     startActivity(
                         Intent(this, kind.config).putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, id)
                     )
@@ -60,7 +57,11 @@ class MainActivity : ConfigActivity() {
             }
         }
         if (!found) {
-            content.addView(TextView(this).apply { text = getString(R.string.no_widgets) })
+            addCard(TextView(this).apply {
+                text = getString(R.string.no_widgets)
+                textSize = 15f
+                setPadding(0, dp(14), 0, dp(14))
+            })
         }
     }
 }

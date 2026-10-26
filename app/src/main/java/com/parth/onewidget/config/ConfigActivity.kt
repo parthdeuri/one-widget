@@ -6,17 +6,25 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
+import android.view.ViewOutlineProvider
 import android.graphics.Color
+import android.graphics.Outline
+import android.graphics.Typeface
+import android.graphics.drawable.GradientDrawable
 import android.widget.Button
 import android.widget.EditText
+import android.widget.FrameLayout
 import android.widget.HorizontalScrollView
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.SeekBar
 import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
+import com.parth.onewidget.R
 import com.parth.onewidget.prefs.WidgetPrefs
 import com.parth.onewidget.render.BackgroundRenderer
 import com.parth.onewidget.render.Bg
@@ -37,28 +45,120 @@ open class ConfigActivity : Activity() {
 
     protected fun dp(v: Int) = (v * resources.displayMetrics.density).toInt()
 
+    protected open val screenTitle: String get() = "Widget settings"
+    protected open val screenSubtitle: String get() = "Make it yours: colours, background and tap action"
+    protected open val showLogo: Boolean get() = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         content = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
-            setPadding(dp(16), dp(24), dp(16), dp(24))
+            setPadding(dp(16), dp(16), dp(16), dp(24))
         }
-        setContentView(ScrollView(this).apply { addView(content) })
+        val root = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            addView(banner())
+            addView(content)
+        }
+        setContentView(ScrollView(this).apply { addView(root) })
+    }
+
+    /** Pink gradient header with blossoms, the screen title and, on the home screen, the logo. */
+    private fun banner(): View {
+        val frame = FrameLayout(this).apply { background = getDrawable(R.drawable.header_gradient) }
+        frame.addView(
+            ImageView(this).apply { setImageResource(R.drawable.deco_sakura) },
+            FrameLayout.LayoutParams(dp(220), dp(110), Gravity.END or Gravity.TOP)
+        )
+        val row = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER_VERTICAL
+            setPadding(dp(20), dp(24), dp(20), dp(28))
+        }
+        if (showLogo) {
+            row.addView(ImageView(this).apply {
+                setImageResource(R.drawable.ic_logo)
+                outlineProvider = object : ViewOutlineProvider() {
+                    override fun getOutline(view: View, outline: Outline) {
+                        outline.setRoundRect(0, 0, view.width, view.height, dp(16).toFloat())
+                    }
+                }
+                clipToOutline = true
+            }, LinearLayout.LayoutParams(dp(64), dp(64)).apply { rightMargin = dp(16) })
+        }
+        val texts = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
+        texts.addView(TextView(this).apply {
+            text = screenTitle
+            textSize = 26f
+            setTypeface(typeface, Typeface.BOLD)
+            setTextColor(getColor(R.color.sakura_deep))
+        })
+        texts.addView(TextView(this).apply {
+            text = screenSubtitle
+            textSize = 14f
+            setTextColor(getColor(R.color.sakura_subtext))
+        })
+        row.addView(texts)
+        frame.addView(row)
+        return frame
+    }
+
+    /** Puts a row inside a rounded white card. */
+    protected fun addCard(view: View) {
+        view.background = getDrawable(R.drawable.card_bg)
+        view.setPadding(dp(16), view.paddingTop, dp(16), view.paddingBottom)
+        content.addView(view, LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT
+        ).apply { bottomMargin = dp(8) })
+    }
+
+    protected fun addSectionTitle(text: String) {
+        content.addView(TextView(this).apply {
+            this.text = text
+            textSize = 18f
+            setTypeface(typeface, Typeface.BOLD)
+            setTextColor(getColor(R.color.sakura_deep))
+            setPadding(dp(4), dp(16), 0, dp(8))
+        })
+    }
+
+    private fun swatchBackground(color: Int) = GradientDrawable().apply {
+        setColor(color)
+        cornerRadius = dp(10).toFloat()
+        setStroke(dp(1), getColor(R.color.sakura_line))
+    }
+
+    /** A tappable row with a title, optional subtitle and a chevron; used for lists of destinations. */
+    protected fun addNavRow(title: String, subtitle: String, onClick: () -> Unit) {
+        val sub = TextView(this).apply {
+            textSize = 13f
+            setTextColor(getColor(R.color.sakura_subtext))
+            text = subtitle
+        }
+        val chevron = TextView(this).apply {
+            text = "›"
+            textSize = 26f
+            gravity = Gravity.CENTER
+            setTextColor(getColor(R.color.sakura_primary))
+        }
+        val row = row(title, sub, chevron)
+        row.setOnClickListener { onClick() }
+        addCard(row)
     }
 
     protected fun addColorRow(label: String, key: String, default: Int) {
         val swatch = View(this).apply {
-            setBackgroundColor(WidgetPrefs.getColor(this@ConfigActivity, widgetId, key, default))
+            background = swatchBackground(WidgetPrefs.getColor(this@ConfigActivity, widgetId, key, default))
         }
         val row = row(label, null, swatch)
         row.setOnClickListener {
             val initial = WidgetPrefs.getColor(this, widgetId, key, default)
             ColorPickerDialog.show(this, initial) { picked ->
                 WidgetPrefs.setColor(this, widgetId, key, picked)
-                swatch.setBackgroundColor(picked)
+                swatch.background = swatchBackground(picked)
             }
         }
-        content.addView(row)
+        addCard(row)
     }
 
     /** Values are "#AARRGGBB" colours, "true"/"false" flags, or plain integers. */
@@ -72,6 +172,12 @@ open class ConfigActivity : Activity() {
         presets.forEach { preset ->
             buttons.addView(Button(this).apply {
                 text = preset.name
+                isAllCaps = false
+                background = getDrawable(R.drawable.btn_soft)
+                setTextColor(getColor(R.color.sakura_deep))
+                layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT, dp(44)
+                ).apply { rightMargin = dp(8) }
                 setOnClickListener {
                     preset.values.forEach { (key, value) ->
                         when {
@@ -84,8 +190,11 @@ open class ConfigActivity : Activity() {
                 }
             })
         }
-        content.addView(TextView(this).apply { text = "Theme presets"; textSize = 16f })
-        content.addView(HorizontalScrollView(this).apply { addView(buttons) })
+        addSectionTitle("Theme presets")
+        content.addView(HorizontalScrollView(this).apply {
+            isHorizontalScrollBarEnabled = false
+            addView(buttons)
+        })
     }
 
     protected fun addSliderRow(label: String, key: String, min: Int, max: Int, default: Int, suffix: String = "") {
@@ -105,7 +214,7 @@ open class ConfigActivity : Activity() {
                 override fun onStopTrackingTouch(s: SeekBar) {}
             })
         }
-        content.addView(LinearLayout(this).apply {
+        addCard(LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             setPadding(0, dp(12), 0, dp(12))
             addView(title)
@@ -115,7 +224,7 @@ open class ConfigActivity : Activity() {
 
     protected fun addChoiceRow(label: String, key: String, options: List<String>, default: Int) {
         val subtitle = TextView(this).apply {
-            textSize = 13f
+            textSize = 13f; setTextColor(getColor(R.color.sakura_subtext))
             text = options.getOrElse(WidgetPrefs.getInt(this@ConfigActivity, widgetId, key, default)) { options[0] }
         }
         val row = row(label, subtitle, null)
@@ -128,11 +237,11 @@ open class ConfigActivity : Activity() {
                 }
                 .show()
         }
-        content.addView(row)
+        addCard(row)
     }
 
     private fun addImageRow() {
-        val subtitle = TextView(this).apply { textSize = 13f }
+        val subtitle = TextView(this).apply { textSize = 13f; setTextColor(getColor(R.color.sakura_subtext)) }
         imageSubtitle = subtitle
         showImageState(subtitle)
         val row = row("Background image", subtitle, null)
@@ -153,7 +262,7 @@ open class ConfigActivity : Activity() {
                 }
                 .show()
         }
-        content.addView(row)
+        addCard(row)
     }
 
     private fun showImageState(view: TextView) {
@@ -162,11 +271,7 @@ open class ConfigActivity : Activity() {
 
     /** Colour, gradient, opacity, corners, pattern and image: shared by every widget. */
     protected fun addBackgroundSection(defaultColor: Int) {
-        content.addView(TextView(this).apply {
-            text = "Background"
-            textSize = 20f
-            setPadding(0, dp(20), 0, 0)
-        })
+        addSectionTitle("Background")
         addColorRow("Background colour", Bg.KEY_BG, defaultColor)
         addSwitchRow("Gradient background", Bg.GRADIENT, false)
         addColorRow("Gradient end colour", Bg.COLOR2, Bg.DEFAULT_COLOR2)
@@ -180,7 +285,7 @@ open class ConfigActivity : Activity() {
     }
 
     protected fun addSwitchRow(label: String, key: String, default: Boolean) {
-        content.addView(Switch(this).apply {
+        addCard(Switch(this).apply {
             text = label
             textSize = 16f
             setPadding(0, dp(12), 0, dp(12))
@@ -194,13 +299,19 @@ open class ConfigActivity : Activity() {
     protected fun addButton(label: String, onClick: () -> Unit) {
         content.addView(Button(this).apply {
             text = label
+            isAllCaps = false
+            textSize = 16f
+            setTextColor(Color.WHITE)
+            background = getDrawable(R.drawable.btn_primary)
             setOnClickListener { onClick() }
-        })
+        }, LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT, dp(52)
+        ).apply { topMargin = dp(8); bottomMargin = dp(4) })
     }
 
     protected fun addTextRow(label: String, key: String, default: String) {
         val subtitle = TextView(this).apply {
-            textSize = 13f
+            textSize = 13f; setTextColor(getColor(R.color.sakura_subtext))
             text = WidgetPrefs.getString(this@ConfigActivity, widgetId, key) ?: default
         }
         val row = row(label, subtitle, null)
@@ -221,13 +332,13 @@ open class ConfigActivity : Activity() {
                 .setNegativeButton(android.R.string.cancel, null)
                 .show()
         }
-        content.addView(row)
+        addCard(row)
     }
 
     /** Stores the picked date as "yyyy-MM-dd". */
     protected fun addDateRow(label: String, key: String) {
         val subtitle = TextView(this).apply {
-            textSize = 13f
+            textSize = 13f; setTextColor(getColor(R.color.sakura_subtext))
             text = WidgetPrefs.getString(this@ConfigActivity, widgetId, key) ?: "Not set"
         }
         val row = row(label, subtitle, null)
@@ -245,11 +356,11 @@ open class ConfigActivity : Activity() {
                 subtitle.text = value
             }, y, m, d).show()
         }
-        content.addView(row)
+        addCard(row)
     }
 
     protected fun addAppRow(label: String, key: String = WidgetPrefs.KEY_TAP_PACKAGE) {
-        val subtitle = TextView(this).apply { textSize = 13f }
+        val subtitle = TextView(this).apply { textSize = 13f; setTextColor(getColor(R.color.sakura_subtext)) }
         appSubtitles[key] = subtitle
         showTapApp(subtitle, key)
         val row = row(label, subtitle, null)
@@ -258,7 +369,7 @@ open class ConfigActivity : Activity() {
             @Suppress("DEPRECATION")
             startActivityForResult(Intent(this, AppPickerActivity::class.java), REQ_APP)
         }
-        content.addView(row)
+        addCard(row)
     }
 
     @Deprecated("Deprecated in Java")

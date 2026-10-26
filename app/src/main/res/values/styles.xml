@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.OneWidget" parent="@android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:colorPrimary">@color/sakura_primary</item>
+        <item name="android:colorPrimaryDark">@color/sakura_bg</item>
+        <item name="android:colorAccent">@color/sakura_primary</item>
+        <item name="android:colorControlActivated">@color/sakura_primary</item>
+        <item name="android:windowBackground">@color/sakura_bg</item>
+        <item name="android:statusBarColor">@color/sakura_bg</item>
+        <item name="android:navigationBarColor">@color/sakura_bg</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:textColorPrimary">@color/sakura_text</item>
+        <item name="android:textColorSecondary">@color/sakura_subtext</item>
+    </style>
+</resources>

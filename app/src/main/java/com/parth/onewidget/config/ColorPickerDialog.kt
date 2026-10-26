@@ -3,6 +3,7 @@ package com.parth.onewidget.config
 import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.text.Editable
 import android.text.InputFilter
 import android.text.InputType
@@ -37,7 +38,11 @@ object ColorPickerDialog {
 
         fun syncAll(fromHex: Boolean) {
             updating = true
-            swatch.setBackgroundColor(current())
+            swatch.background = GradientDrawable().apply {
+                setColor(current())
+                cornerRadius = dp(12).toFloat()
+                setStroke(dp(1), 0xFFF8BBD0.toInt())
+            }
             if (fromHex) syncs.forEach { it() } else hex.setText(String.format("#%08X", current()))
             updating = false
         }

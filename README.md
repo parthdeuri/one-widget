@@ -11,7 +11,9 @@ Customizable Android home-screen widgets, written in Kotlin with no third-party 
 - **Clock + calendar**: both together in one widget, side by side or stacked, either one first. Each side opens its own app when tapped.
 - **Countdown**: days until (or since) a date you pick, with your own label.
 
-The calendar can show a dot under days that have events (asks for the Calendar permission). Coming next: a sakura-style redesign of the app screens.
+The calendar can show a dot under days that have events (asks for the Calendar permission).
+
+The app itself has a sakura look: a pink blossom header, rounded cards, and rose-coloured controls on every screen.
 
 ## Customization
 

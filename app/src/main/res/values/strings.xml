@@ -6,6 +6,6 @@
     <string name="widget_calendar_desc">Month calendar with customizable colours</string>
     <string name="widget_combined_desc">Clock and calendar together, each opening its own app</string>
     <string name="widget_countdown_desc">Days until a date you choose</string>
-    <string name="home_hint">Long-press your home screen and add a widget from one-widget. Widgets on your home screen are listed here so you can change their colours and tap action.</string>
-    <string name="no_widgets">No widgets placed yet.</string>
+    <string name="home_hint">Long-press your home screen and add a widget from one-widget. Placed widgets are listed below so you can change their colours, background and tap action any time.</string>
+    <string name="no_widgets">No widgets placed yet. Long-press your home screen, open Widgets, and pick one-widget to add your first.</string>
 </resources>

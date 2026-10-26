@@ -11,6 +11,7 @@ import com.parth.onewidget.render.Bg
 import com.parth.onewidget.providers.ClockAnalogProvider as P
 
 class ClockAnalogConfigActivity : ConfigActivity() {
+    override val screenTitle: String get() = "Analog clock"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         widgetId = intent.getIntExtra(

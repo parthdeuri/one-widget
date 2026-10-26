@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="sakura_bg">#FFFFF5F8</color>
+    <color name="sakura_card">#FFFFFFFF</color>
+    <color name="sakura_line">#FFF8BBD0</color>
+    <color name="sakura_soft">#FFFCE4EC</color>
+    <color name="sakura_primary">#FFEC407A</color>
+    <color name="sakura_deep">#FF880E4F</color>
+    <color name="sakura_text">#FF4A2B38</color>
+    <color name="sakura_subtext">#FF8E6B7A</color>
+</resources>

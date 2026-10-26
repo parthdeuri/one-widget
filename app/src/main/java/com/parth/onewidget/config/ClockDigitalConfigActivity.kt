@@ -7,6 +7,7 @@ import com.parth.onewidget.render.Bg
 import com.parth.onewidget.providers.ClockDigitalProvider as P
 
 class ClockDigitalConfigActivity : ConfigActivity() {
+    override val screenTitle: String get() = "Digital clock"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         widgetId = intent.getIntExtra(

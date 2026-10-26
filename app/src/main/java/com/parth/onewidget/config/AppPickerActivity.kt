@@ -3,6 +3,8 @@ package com.parth.onewidget.config
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.ResolveInfo
+import android.graphics.drawable.ColorDrawable
+import com.parth.onewidget.R
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
@@ -60,6 +62,9 @@ class AppPickerActivity : Activity() {
 
         setContentView(ListView(this).apply {
             this.adapter = adapter
+            setBackgroundColor(getColor(R.color.sakura_bg))
+            divider = ColorDrawable(getColor(R.color.sakura_line))
+            dividerHeight = 1
             setOnItemClickListener { _, _, position, _ ->
                 val pkg = apps.getOrNull(position - 1)?.activityInfo?.packageName ?: ""
                 setResult(RESULT_OK, Intent().putExtra(EXTRA_PACKAGE, pkg))

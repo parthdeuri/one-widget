@@ -7,6 +7,7 @@ import com.parth.onewidget.render.Bg
 import com.parth.onewidget.providers.CountdownProvider as P
 
 class CountdownConfigActivity : ConfigActivity() {
+    override val screenTitle: String get() = "Countdown"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         widgetId = intent.getIntExtra(
