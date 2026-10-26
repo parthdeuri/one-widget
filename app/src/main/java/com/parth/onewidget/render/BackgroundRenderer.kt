@@ -233,6 +233,12 @@ object BackgroundRenderer {
 
     /** Copies the picked image into app storage, downscaled and rotated upright. */
     fun importImage(context: Context, id: Int, uri: Uri): Boolean = try {
+        copyImage(context, id, uri)
+    } catch (e: Exception) {
+        false
+    }
+
+    private fun copyImage(context: Context, id: Int, uri: Uri): Boolean {
         val resolver = context.contentResolver
         val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
         resolver.openInputStream(uri)?.use { BitmapFactory.decodeStream(it, null, bounds) }
@@ -254,8 +260,6 @@ object BackgroundRenderer {
             image = Bitmap.createBitmap(image, 0, 0, image.width, image.height, Matrix().apply { postRotate(degrees) }, true)
         }
         imageFile(context, id).outputStream().use { image.compress(Bitmap.CompressFormat.JPEG, 85, it) }
-        true
-    } catch (e: Exception) {
-        false
+        return true
     }
 }
